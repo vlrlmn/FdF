@@ -10,9 +10,7 @@ int main(int argc, char **argv)
     data = (fdf*)malloc(sizeof(fdf));
     if (!data)
         exit(EXIT_FAILURE);
-    else
-        read_file(argv[1], data);
-    if (read_file(argv[1], data) == 0)
+    else if (read_file(argv[1], data))
     {
         free(data);
         exit(EXIT_FAILURE);

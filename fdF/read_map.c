@@ -66,14 +66,14 @@ int read_file(char *filename, fdf *data)
     fd = open(filename, O_RDONLY, 0);
     if (fd < 0) 
     { 
-        return (0);
+        return (1);
     }
     data->height = get_height(filename);  // Вызывается только для вычисления высоты
     data->matrix = ft_calloc(sizeof(int*), data->height);
     if (!data->matrix)
     { 
         close(fd); 
-        return(0); 
+        return(1); 
     }
 
     while ((line = get_next_line(fd)) && i < data->height && *line)
@@ -85,7 +85,7 @@ int read_file(char *filename, fdf *data)
         i++;
     }
     close(fd);
-    return(1);
+    return(0);
 }
 
 
