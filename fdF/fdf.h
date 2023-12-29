@@ -20,6 +20,6 @@ typedef struct
     int **matrix;
 }           fdf;
 
-void read_file(char *filename, fdf *data);
+int read_file(char *filename, fdf *data);
 
 #endif

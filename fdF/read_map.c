@@ -57,7 +57,7 @@ void fill_matrix(int *z_line, char *line)
     free(nums);
 }
 
-void read_file(char *filename, fdf *data)
+int read_file(char *filename, fdf *data)
 {
     int fd;
     char *line;
@@ -66,11 +66,15 @@ void read_file(char *filename, fdf *data)
     fd = open(filename, O_RDONLY, 0);
     if (fd < 0) 
     { 
-        return ;
+        return (0);
     }
     data->height = get_height(filename);  // Вызывается только для вычисления высоты
     data->matrix = ft_calloc(sizeof(int*), data->height);
-    if (!data->matrix) { close(fd); return; }
+    if (!data->matrix)
+    { 
+        close(fd); 
+        return(0); 
+    }
 
     while ((line = get_next_line(fd)) && i < data->height && *line)
     {
@@ -81,6 +85,7 @@ void read_file(char *filename, fdf *data)
         i++;
     }
     close(fd);
+    return(1);
 }
 
 
