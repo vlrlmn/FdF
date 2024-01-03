@@ -56,18 +56,36 @@ void fill_matrix(int *z_line, char *line)
     }
     free(nums);
 }
+int read_and_fill(int fd, fdf *data)
+{
+    char *line;
+    int i;
+
+    i = 0;
+    while ((line = get_next_line(fd)) && i < data->height && *line)
+    {
+        if (i == 0) 
+            data->width = ft_wdcounter(line, ' ');
+        data->matrix[i] = ft_calloc(sizeof(int), data->width);
+        fill_matrix(data->matrix[i], line);
+        free(line);
+        i++;
+    }
+    return((i == data->height));
+}
 
 int read_file(char *filename, fdf *data)
 {
     int fd;
     char *line;
-    int i = 0;
+    int i;
+    int result;
+    
+    i = 0;
 
     fd = open(filename, O_RDONLY, 0);
     if (fd < 0) 
-    { 
         return (1);
-    }
     data->height = get_height(filename);  // Вызывается только для вычисления высоты
     data->matrix = ft_calloc(sizeof(int*), data->height);
     if (!data->matrix)
@@ -75,67 +93,7 @@ int read_file(char *filename, fdf *data)
         close(fd); 
         return(1); 
     }
-
-    while ((line = get_next_line(fd)) && i < data->height && *line)
-    {
-        if (i == 0) data->width = ft_wdcounter(line, ' ');
-        data->matrix[i] = ft_calloc(sizeof(int), data->width);
-        fill_matrix(data->matrix[i], line);
-        free(line);
-        i++;
-    }
+    result = read_and_fill(fd, data);
     close(fd);
     return(0);
 }
-
-
-// int get_width(char *filename)
-// {
-//     int width;
-//     int fd;
-//     char *line;
-
-//     fd = open(filename, O_RDONLY, 0);
-//     if (fd < 0)
-//         return(-1);
-//     line = get_next_line(fd);
-//     width = ft_wdcounter(line, ' ');
-//     free(line);
-//     close(fd);
-//     return(width);
-// }
-
-
-// void read_file(char *filename, fdf *data)
-// {
-//     int fd;
-//     char *line;
-//     int i;
-
-//     i = 0;
-//     data->height = get_height(filename);
-//     data->width = get_width(filename);
-//     if (data->height < 0 || data->width < 0)
-//         return ;
-//     data->matrix = ft_calloc(sizeof(int**), (data->height + 1));
-//     if (!data->matrix)
-//         return;
-//     while(i <= data->height)
-//         data->matrix[i++] = ft_calloc(sizeof(int*), (data->width + 1));
-//     fd = open(filename, O_RDONLY, 0);
-//     if (fd < 0)
-//     {
-//         free(data);
-//         exit(-1);
-//     }
-//     i = 0;
-//     line = get_next_line(fd);
-//     while(line && i < data->height)
-//     {
-//         fill_matrix(data->matrix[i], line);
-//         free(line);
-//         line = get_next_line(fd);
-//         i++;
-//     }
-//     close(fd);
-// }
