@@ -18,8 +18,17 @@ typedef struct
     int height;
     int width;
     int **matrix;
-}           fdf;
+    int zoom;
+    int color;
+    int shift_x;
+    int shift_y;
+    void    *mlx_ptr;
+    void    *win_ptr;
+}       fdf;
 
 int read_file(char *filename, fdf *data);
+void bresenham(float x, float y, float x1, float y1, fdf *data);
+void draw_map(fdf *data);
+void isometric(float *x, float *y, int z);
 
 #endif
