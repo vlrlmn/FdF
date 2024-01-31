@@ -32,32 +32,10 @@ int main(int argc, char **argv)
     }
 
     data->mlx_ptr = mlx_init();
-    data->win_ptr = mlx_new_window(data->mlx_ptr, 1000, 700, "FDF");
-    data->zoom = 30;
+    data->win_ptr = mlx_new_window(data->mlx_ptr, 700, 570, "FDF");
+    data->zoom = 40;
     // bresenham(10, 10, 600, 300, data);
     draw_map(data);
     mlx_key_hook(data->win_ptr, key_hook, data);
     mlx_loop(data->mlx_ptr);
 }
-
-//     int i, j;
-//     i = 0;
-//     while(i < data->height)
-//     {
-//         j = 0;
-//         while(j < data->width)
-//         {
-//             printf("%3d", data->matrix[i][j]);
-//             j++;
-//         }
-//         printf("\n");
-//         i++;
-//     }
-
-//     for (i = 0; i < data->height; i++) {
-//         free(data->matrix[i]);  
-//     }
-//     free(data->matrix);
-//     free(data);
-//     return 0;
-// }

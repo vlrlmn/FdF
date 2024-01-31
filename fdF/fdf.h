@@ -10,7 +10,6 @@
 #include "minilibx_macos/mlx.h"
 #include "Libft/libft.h"
 
-
 #define ERROR_MESSAGE "Please write the names correct"
 
 typedef struct

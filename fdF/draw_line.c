@@ -10,8 +10,8 @@ float mod(float i)
 
 void isometric(float *x, float *y, int z)
 {
-    *x = (*x - *y) * cos(0.9);
-    *y = (*x + *y) * sin(1.2) - z;
+    *x = (*x - *y) * cos(1);
+    *y = (*x + *y) * sin(0.5) - z;
 }
 
 void bresenham(float x, float y, float x1, float y1, fdf *data)
@@ -32,7 +32,6 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
     //---------color----------
     data->color = (z || z1) ? 0xe80c0c : 0xffffff;
     //-------------3D-------
-
     isometric(&x, &y, z);
     isometric(&x1, &y1, z1);
     x += data->shift_x;
