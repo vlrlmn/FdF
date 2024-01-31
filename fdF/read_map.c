@@ -78,12 +78,8 @@ int read_and_fill(int fd, fdf *data)
 int read_file(char *filename, fdf *data)
 {
     int fd;
-    char *line;
-    int i;
     int result;
     
-    i = 0;
-
     fd = open(filename, O_RDONLY, 0);
     if (fd < 0) 
         return (1);
@@ -96,5 +92,5 @@ int read_file(char *filename, fdf *data)
     }
     result = read_and_fill(fd, data);
     close(fd);
-    return(0);
+    return(result);
 }

@@ -8,7 +8,7 @@
 #include <fcntl.h>
 #include <limits.h>
 #include "minilibx_macos/mlx.h"
-#include "Libft/libft.h"
+#include "libft/libft.h"
 
 #define ERROR_MESSAGE "Please write the names correct"
 
