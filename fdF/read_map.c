@@ -72,7 +72,7 @@ int read_and_fill(int fd, fdf *data)
         free(line);
         i++;
     }
-    return((i == data->height));
+    return((i != data->height));
 }
 
 int read_file(char *filename, fdf *data)
