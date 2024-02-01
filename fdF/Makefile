@@ -6,7 +6,7 @@
 #    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 16:24:26 by atucci            #+#    #+#              #
-#    Updated: 2024/01/31 17:06:28 by lomakinaval      ###   ########.fr        #
+#    Updated: 2024/02/01 16:45:05 by lomakinaval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ NAME = fdf
 SRC = ./main.c \
 	  ./read_map.c \
 	  ./draw_line.c \
+	  ./key_hooks.c \
 	  
 #--------------------------------------------------
 # This sets the variable OBJS to a list of object files that need to be built from the SRC files.

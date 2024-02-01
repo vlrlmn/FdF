@@ -1,19 +1,17 @@
 #include "fdf.h"
 
-int	key_hook(int keycode, fdf *data)
+void default_parameters(fdf *data)
 {
-	printf("Hello from key_hook %d!\n", keycode);
-    if (keycode == 126)
-        data->shift_y -= 10;
-    if (keycode == 125)
-        data->shift_y += 10;
-    if (keycode == 124)
-        data->shift_x += 10;
-    if (keycode == 123)
-        data->shift_x -= 10;
-    mlx_clear_window(data->mlx_ptr, data->win_ptr);
-    draw_map(data);
-	return (0);
+    data->zoom = 20;
+    data->z = 1;
+    data->zoom_z = 1;
+    data->angle = 0.523599;
+    data->win_x = 1000;
+    data->win_y = 700;
+    data->shift_x = data->win_x / 3;
+    data->shift_y = data->win_y / 3;
+    data->mlx_ptr = mlx_init();
+    data->win_ptr = mlx_new_window(data->mlx_ptr, data->win_x, data->win_y, "FDF");
 }
 
 int main(int argc, char **argv)
@@ -30,12 +28,8 @@ int main(int argc, char **argv)
         free(data);
         exit(EXIT_FAILURE);
     }
-
-    data->mlx_ptr = mlx_init();
-    data->win_ptr = mlx_new_window(data->mlx_ptr, 700, 570, "FDF");
-    data->zoom = 40;
-    // bresenham(10, 10, 600, 300, data);
+    default_parameters(data);
     draw_map(data);
-    mlx_key_hook(data->win_ptr, key_hook, data);
+    mlx_key_hook(data->win_ptr, key_hoo, data);
     mlx_loop(data->mlx_ptr);
 }

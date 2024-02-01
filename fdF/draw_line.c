@@ -8,10 +8,12 @@ float mod(float i)
     return(i < 0) ? -i : i;
 }
 
-void isometric(float *x, float *y, int z)
+void isometric(float *x, float *y, int z, fdf *data)
 {
-    *x = (*x - *y) * cos(1);
-    *y = (*x + *y) * sin(0.5) - z;
+    float prev_x = *x;
+
+    *x = (prev_x - *y) * cos(data->angle);
+    *y = (prev_x + *y) * sin(data->angle) - z * data->z;
 }
 
 void bresenham(float x, float y, float x1, float y1, fdf *data)
@@ -22,8 +24,8 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
     int z;
     int z1;
 
-    z = data->matrix[(int)y][(int)x];
-    z1 = data->matrix[(int)y1][(int)x1];
+    z = data->matrix[(int)y][(int)x] * data->zoom_z;
+    z1 = data->matrix[(int)y1][(int)x1] * data->zoom_z;
     //---------zoom----------
     x *= data->zoom;
     y *= data->zoom;
@@ -32,8 +34,8 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
     //---------color----------
     data->color = (z || z1) ? 0xe80c0c : 0xffffff;
     //-------------3D-------
-    isometric(&x, &y, z);
-    isometric(&x1, &y1, z1);
+    isometric(&x, &y, z, data);
+    isometric(&x1, &y1, z1, data);
     x += data->shift_x;
     y += data->shift_y;
     x1 += data->shift_x;
