@@ -44,5 +44,7 @@ void draw_map(fdf *data);
 void isometric(float *x, float *y, int z, fdf *data);
 int	key_hoo(int keycode, fdf *data);
 float get_max(float a, float b);
+void change_window(int keycode, fdf *data);
+void new_size(int keycode, fdf *data);
 
 #endif

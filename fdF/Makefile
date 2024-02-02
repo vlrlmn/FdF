@@ -6,7 +6,7 @@
 #    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 16:24:26 by atucci            #+#    #+#              #
-#    Updated: 2024/02/01 17:11:15 by lomakinaval      ###   ########.fr        #
+#    Updated: 2024/02/02 11:45:39 by lomakinaval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC = ./main.c \
 	  ./read_map.c \
 	  ./draw_line.c \
 	  ./key_hooks.c \
+	  ./new_window_size.c \
 	  
 #--------------------------------------------------
 # This sets the variable OBJS to a list of object files that need to be built from the SRC files.

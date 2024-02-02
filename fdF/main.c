@@ -32,4 +32,5 @@ int main(int argc, char **argv)
     draw_map(data);
     mlx_key_hook(data->win_ptr, key_hoo, data);
     mlx_loop(data->mlx_ptr);
+    free(data);
 }

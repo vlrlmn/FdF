@@ -8,6 +8,10 @@ float get_max(float a, float b)
         return (b);
 }
 
+float get_min(float a, float b) {
+    return (a < b) ? a : b;
+}
+
 void isometric(float *x, float *y, int z, fdf *data)
 {
     float prev_x = *x;
@@ -15,6 +19,7 @@ void isometric(float *x, float *y, int z, fdf *data)
     *x = (prev_x - *y) * cos(data->angle);
     *y = (prev_x + *y) * sin(data->angle) - z * data->z;
 }
+
 
 void bresenham(float x, float y, float x1, float y1, fdf *data)
 {
@@ -42,7 +47,6 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
     x1 += data->shift_x;
     y1 += data->shift_y;
     //-----------shift---------
-
     x_step = x1 - x;
     y_step = y1 - y;
     max = get_max(fabs(x_step), fabs(y_step));
@@ -77,3 +81,39 @@ void draw_map(fdf *data)
         y++;
     }
 }
+// int get_color(int z, int z1) 
+// {
+//     if (z || z1)
+//         return (0xe80c0c);
+//     else
+//         return (0xffffff);
+// }
+
+// int interpolate_color(int start, int end, float percentage) {
+//     if (start == end)
+//         return start;
+//     int red = ((start >> 16) & 0xFF) + percentage * (((end >> 16) & 0xFF) - ((start >> 16) & 0xFF));
+//     int green = ((start >> 8) & 0xFF) + percentage * (((end >> 8) & 0xFF) - ((start >> 8) & 0xFF));
+//     int blue = (start & 0xFF) + percentage * ((end & 0xFF) - (start & 0xFF));
+//     return (red << 16) | (green << 8) | blue;
+// }
+
+// void bresenham(float x, float y, float x1, float y1, fdf *data) {
+//     float x_step = x1 - x;
+//     float y_step = y1 - y;
+//     int z = data->matrix[(int)y][(int)x] * data->zoom_z;
+//     int z1 = data->matrix[(int)y1][(int)x1] * data->zoom_z;
+//     int start_color = get_color(z, z);
+//     int end_color = get_color(z1, z1);
+//     float max = get_max(fabs(x_step), fabs(y_step));
+
+//     // Интерполяция координат и цветов
+//     x_step /= max;
+//     y_step /= max;
+//     for (int i = 0; i <= max; i++) {
+//         int current_color = interpolate_color(start_color, end_color, get_max(0, get_min(1, (float)i / max)));
+//         mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, current_color);
+//         x += x_step;
+//         y += y_step;
+//     }
+// }
