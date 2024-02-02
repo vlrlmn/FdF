@@ -22,7 +22,7 @@ int get_height(char *filename)
     return(height);
 }
 
-int		ft_wdcounter(char const *str, char c)
+int		word_count(char const *str, char c)
 {
 	int i;
 	int words;
@@ -66,7 +66,7 @@ int read_and_fill(int fd, fdf *data)
     while ((line = get_next_line(fd)) && i < data->height && *line)
     {
         if (i == 0) 
-            data->width = ft_wdcounter(line, ' ');
+            data->width = word_count(line, ' ');
         data->matrix[i] = ft_calloc(sizeof(int), data->width);
         fill_matrix(data->matrix[i], line);
         free(line);

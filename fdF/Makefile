@@ -6,7 +6,7 @@
 #    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 16:24:26 by atucci            #+#    #+#              #
-#    Updated: 2024/02/01 16:45:05 by lomakinaval      ###   ########.fr        #
+#    Updated: 2024/02/01 17:11:15 by lomakinaval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ LIBFT = libft/libft.a
 
 #--------------------------------------------------
 # This variable specifies additional flags required for MiniLibX (mlx).
-MLX_FLAG = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit
+MLX_FLAG = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit 
 
 
 #--------------------------------------------------

@@ -1,11 +1,11 @@
 #include "fdf.h"
 
-#define MAX(a, b) (a > b ? a : b)
-#define MOD(a) ((a < 0) ? -a : a)
-
-float mod(float i)
+float get_max(float a, float b) 
 {
-    return(i < 0) ? -i : i;
+    if (a > b)
+        return (a);
+    else
+        return (b);
 }
 
 void isometric(float *x, float *y, int z, fdf *data)
@@ -20,7 +20,7 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
 {
     float x_step;
     float y_step;
-    int max;
+    float max;
     int z;
     int z1;
 
@@ -33,6 +33,7 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
     y1 *= data->zoom;
     //---------color----------
     data->color = (z || z1) ? 0xe80c0c : 0xffffff;
+    data->color = (z != z1) ? 0xfc031c : data->color;
     //-------------3D-------
     isometric(&x, &y, z, data);
     isometric(&x1, &y1, z1, data);
@@ -44,7 +45,7 @@ void bresenham(float x, float y, float x1, float y1, fdf *data)
 
     x_step = x1 - x;
     y_step = y1 - y;
-    max = MAX(MOD(x_step), MOD(y_step));
+    max = get_max(fabs(x_step), fabs(y_step));
     x_step /= max;
     y_step /= max;
 

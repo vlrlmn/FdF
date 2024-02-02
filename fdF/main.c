@@ -2,9 +2,9 @@
 
 void default_parameters(fdf *data)
 {
-    data->zoom = 20;
-    data->z = 1;
-    data->zoom_z = 1;
+    data->zoom = 30;
+    data->z = 1.5;
+    data->zoom_z = 1.5;
     data->angle = 0.523599;
     data->win_x = 1000;
     data->win_y = 700;
