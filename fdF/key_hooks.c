@@ -17,7 +17,8 @@ void free_data(fdf *data)
 
 int valid_key(int keycode)
 {
-    return((keycode >= 123 && keycode <= 126) || keycode == 0 || keycode == 1);
+    return(keycode >= 0 && keycode <= 130);
+    // return((keycode >= 123 && keycode <= 126) || keycode == 0 || keycode == 1);
 }
 
 void exec_key(int keycode, fdf *data)
@@ -35,9 +36,21 @@ void exec_key(int keycode, fdf *data)
         data->angle += 0.05;
     if (keycode == 1)
         data->angle -= 0.05;
+    if (keycode == 6)
+        data->zoom += 3;
+    if (keycode == 7)
+        data->zoom -= 3;
+    if (keycode == 8)
+    {
+        data->zoom_z += 0.5;
+    }
+    else if (keycode == 9)
+    {
+        data->zoom_z -= 0.5;
+    }
 }
 
-int	key_hoo(int keycode, fdf *data)
+int	key_hoo(int keycode, fdf *data, colorInfo *gradient)
 {
     if(valid_key(keycode))
     {
@@ -52,6 +65,7 @@ int	key_hoo(int keycode, fdf *data)
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);
         free_data(data);
         free(data);
+        free(gradient);
         exit(0);
     }
     return(0);
