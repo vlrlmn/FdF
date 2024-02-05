@@ -1,5 +1,6 @@
 #include "fdf.h"
-
+#define MAX_ZOOM_Z 10
+#define MIN_ZOOM_Z -10
 void free_data(fdf *data) 
 {
     int i = 0;
@@ -25,32 +26,32 @@ void exec_key(int keycode, fdf *data)
 {
 	printf("Hello from key_hook %d!\n", keycode);
     if (keycode == 126)
-        data->shift_y -= 10;
+        data->window.shift_y -= 10;
     if (keycode == 125)
-        data->shift_y += 10;
+        data->window.shift_y += 10;
     if (keycode == 124)
-        data->shift_x += 10;
+        data->window.shift_x += 10;
     if (keycode == 123)
-        data->shift_x -= 10;
+        data->window.shift_x -= 10;
     if(keycode == 0)
-        data->angle += 0.05;
+        data->window.angle += 0.05;
     if (keycode == 1)
-        data->angle -= 0.05;
+        data->window.angle -= 0.05;
     if (keycode == 6)
-        data->zoom += 3;
+        data->window.zoom += 3;
     if (keycode == 7)
-        data->zoom -= 3;
+        data->window.zoom -= 3;
     if (keycode == 8)
-    {
-        data->zoom_z += 0.5;
-    }
-    else if (keycode == 9)
-    {
-        data->zoom_z -= 0.5;
-    }
+        data->window.zoom_z = fmin(data->window.zoom_z + 0.5, MAX_ZOOM_Z);
+    if (keycode == 9)
+        data->window.zoom_z = fmax(data->window.zoom_z - 0.5, MIN_ZOOM_Z);
+    if (keycode == 45)
+        data->window.pitch += 0.05;
+    if (keycode == 11)
+        data->window.pitch -= 0.05;
 }
 
-int	key_hoo(int keycode, fdf *data, colorInfo *gradient)
+int	key_hoo(int keycode, fdf *data)
 {
     if(valid_key(keycode))
     {
@@ -65,7 +66,6 @@ int	key_hoo(int keycode, fdf *data, colorInfo *gradient)
         mlx_destroy_window(data->mlx_ptr, data->win_ptr);
         free_data(data);
         free(data);
-        free(gradient);
         exit(0);
     }
     return(0);

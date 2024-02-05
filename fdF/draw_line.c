@@ -8,55 +8,72 @@ float get_max(float a, float b)
         return (b);
 }
 
-void isometric(float *x, float *y, int z, fdf *data)
+void isometric(float *x, float *y, fdf *data, int z)
 {
     float prev_x = *x;
+    float prev_y = *y;
 
-    *x = (prev_x - *y) * cos(data->angle);
-    *y = (prev_x + *y) * sin(data->angle) - z * data->z;
+    // Вращение вокруг оси Z (влево/вправо)
+    *x = prev_x * cos(data->window.angle) - prev_y * sin(data->window.angle);
+    *y = prev_x * sin(data->window.angle) + prev_y * cos(data->window.angle);
+
+    // Масштабирование координаты Z
+    float scaled_z = z * data->window.z_height;
+
+    // Сохранение промежуточного значения Y перед вращением вокруг оси X
+    float intermediate_y = *y;
+
+    // Вращение вокруг оси X (вверх/вниз)
+    *y = intermediate_y * cos(data->window.pitch) - scaled_z * sin(data->window.pitch);
 }
 
-void bresenham(float x, float y, float x1, float y1, fdf *data) {
-    int z;
-    int z1;
-
-    z = data->matrix[(int)y][(int)x] * data->zoom_z;
-    z1 = data->matrix[(int)y1][(int)x1] * data->zoom_z;
-    printf("z: %d\n", z);
-    printf("z1: %d\n", z1);
-    //---------zoom----------
-    x *= data->zoom;
-    y *= data->zoom;
-    x1 *= data->zoom;
-    y1 *= data->zoom;
-    //-------------3D-------
-    isometric(&x, &y, z, data);
-    isometric(&x1, &y1, z1, data);
-    x += data->shift_x;
-    y += data->shift_y;
-    x1 += data->shift_x;
-    y1 += data->shift_y;
-    //-----------shift---------
-    int start_color = determine_color_based_on_z(z, data);
-    int end_color = determine_color_based_on_z(z1, data);
-    float max = get_max(fabs(x1 - x), fabs(y1 - y));
-    float x_step = (x1 - x) / max;
-    float y_step = (y1 - y) / max;
-
-    for (int i = 0; i <= max; i++) {
-        int current_color;
-        interpolate_color(start_color, end_color, i / max, &current_color);
-        mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, current_color);
-        x += x_step;
-        y += y_step;
+void color_pixels(fdf *data, float x, float y)
+{
+    int i;
+    i = 0;
+    while (i <= data->bresenStep.max)
+    {
+        interpolate_color(data->gradient.start_color, data->gradient.end_color, i / data->bresenStep.max, &data->gradient.current_color);
+        if (x >= 0 && x < data->window.win_x && y >= 0 && y < data->window.win_y)
+        {
+            mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y, data->gradient.current_color);
+            x += data->bresenStep.x_step;
+            y += data->bresenStep.y_step;
+            i++;
+        }
+        else
+            return ;
     }
 }
+void bresenham(float x, float y, float x1, float y1, fdf *data) 
+{
+    data->z = data->matrix[(int)y][(int)x] * data->window.zoom_z;
+    data->z1 = data->matrix[(int)y1][(int)x1] * data->window.zoom_z;
+    x *= data->window.zoom;
+    y *= data->window.zoom;
+    x1 *= data->window.zoom;
+    y1 *= data->window.zoom;
+    isometric(&x, &y, data, data->z);
+    isometric(&x1, &y1, data, data->z1);
+    x += data->window.shift_x;
+    y += data->window.shift_y;
+    x1 += data->window.shift_x;
+    y1 += data->window.shift_y;
+    data->gradient.start_color = determine_color_based_on_z(data->z, data);
+    data->gradient.end_color = determine_color_based_on_z(data->z1, data);
+    data->bresenStep.max = get_max(fabs(x1 - x), fabs(y1 - y));
+    data->bresenStep.x_step = (x1 - x) / data->bresenStep.max;
+    data->bresenStep.y_step = (y1 - y) / data->bresenStep.max;
+
+    color_pixels(data, x, y);
+ 
+}
+
 
 void draw_map(fdf *data)
 {
     int x;
     int y;
-
     y = 0;
     while(y < data->height)
     {
