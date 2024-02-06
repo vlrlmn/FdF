@@ -6,20 +6,20 @@
 #    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/31 12:14:58 by vlomakin          #+#    #+#              #
-#    Updated: 2023/08/03 13:03:45 by lomakinaval      ###   ########.fr        #
+#    Updated: 2024/02/06 10:54:00 by lomakinaval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	= libftprintf.a
 
-SRCS	= ./srcs/ft_printf.c \
-	   	./srcs/print_char.c \
-		./srcs/print_digit.c \
-		./srcs/print_integer.c \
-		./srcs/print_pointer.c \
-		./srcs/print_str.c \
-		./srcs/print_unsigned.c \
-		./srcs/print_hex.c \
+SRCS	= ./ft_printf.c \
+	   	./print_char.c \
+		./print_digit.c \
+		./print_integer.c \
+		./print_pointer.c \
+		./print_str.c \
+		./print_unsigned.c \
+		./print_hex.c \
 
 OBJS	= $(SRCS:.c=.o)
 

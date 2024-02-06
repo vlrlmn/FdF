@@ -1,36 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_integer.c                                    :+:      :+:    :+:   */
+/*   print_char.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/31 16:20:30 by vlomakin          #+#    #+#             */
-/*   Updated: 2023/08/02 12:37:41 by lomakinaval      ###   ########.fr       */
+/*   Created: 2023/07/31 15:54:54 by vlomakin          #+#    #+#             */
+/*   Updated: 2024/02/06 10:54:02 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "libftprintf.h"
 
-
-int	print_integer(long n, int base)
+int	print_char(int c)
 {
-	int		count;
-	char	*symbols;
-
-	symbols = "0123456789abcdef";
-	if (n < 0)
-	{
-		print_char('-');
-		return (print_digit(-n, base) + 1);
-	}
-	else if (n < base)
-	{
-		return (print_char(symbols[n]));
-	}
-	else
-	{
-		count = print_digit(n / base, base);
-		return (count + print_digit(n % base, base));
-	}
+	return write(1, &c, 1);
 }

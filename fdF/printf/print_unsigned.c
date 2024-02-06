@@ -1,29 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_digit.c                                      :+:      :+:    :+:   */
+/*   print_unsigned.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/31 15:54:23 by vlomakin          #+#    #+#             */
-/*   Updated: 2023/08/02 12:37:35 by lomakinaval      ###   ########.fr       */
+/*   Created: 2023/07/31 16:20:52 by vlomakin          #+#    #+#             */
+/*   Updated: 2024/02/06 10:54:15 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "libftprintf.h"
 
-int	print_digit(long n, int base)
+int	print_unsigned(unsigned int n, unsigned int base)
 {
 	int		count;
 	char	*symbols;
 
 	symbols = "0123456789";
-	if (n < 0)
-	{
-		print_char('-');
-		return (print_digit(-n, base) + 1);
-	}
-	else if (n < base)
+
+	if (n < base)
 	{
 		return (print_char(symbols[n]));
 	}

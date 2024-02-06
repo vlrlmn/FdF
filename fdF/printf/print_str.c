@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_unsigned.c                                   :+:      :+:    :+:   */
+/*   print_str.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/31 16:20:52 by vlomakin          #+#    #+#             */
-/*   Updated: 2023/08/02 12:37:50 by lomakinaval      ###   ########.fr       */
+/*   Created: 2023/07/31 15:53:59 by vlomakin          #+#    #+#             */
+/*   Updated: 2024/02/06 10:54:12 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "libftprintf.h"
 
-int	print_unsigned(unsigned int n, unsigned int base)
+int	print_str(char *str)
 {
-	int		count;
-	char	*symbols;
+	int	count;
 
-	symbols = "0123456789";
-
-	if (n < base)
+	count = 0;
+	if (!str)
+			str = "(null)";
+	while (*str)
 	{
-		return (print_char(symbols[n]));
+		if(print_char((int)*str) != 1){
+			return (count);
+		}
+		++count;
+		++str;
 	}
-	else
-	{
-		count = print_digit(n / base, base);
-		return (count + print_digit(n % base, base));
-	}
+	return (count);
 }

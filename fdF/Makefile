@@ -6,7 +6,7 @@
 #    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 16:24:26 by atucci            #+#    #+#              #
-#    Updated: 2024/02/02 16:28:22 by lomakinaval      ###   ########.fr        #
+#    Updated: 2024/02/06 15:45:34 by lomakinaval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,11 +42,11 @@ CC = cc -Wall -Wextra -Werror
 #--------------------------------------------------
 # This variable specifies the path to the libft library, which will be used in the project.
 LIBFT = libft/libft.a
+PRINTF = printf/libftprintf.a
 
 #--------------------------------------------------
 # This variable specifies additional flags required for MiniLibX (mlx).
 MLX_FLAG = -L$(MLX_DIR) -lmlx -framework OpenGL -framework AppKit 
-
 
 #--------------------------------------------------
 # this is for mlx_dir
@@ -60,13 +60,6 @@ RED := \033[1;31m
 RESET := \033[0m
 
 #--------------------------------------------------
-# Corny emojis for fun and engaging output messages.
-DANCING_EMOJI := 🕺
-MIC_DROP_EMOJI := 🎤🎶
-PARTY_EMOJI := 🎉
-TRASH_EMOJI := 🗑️
-
-#--------------------------------------------------
 # Rule for compiling C source files into object files.
 .c.o:
 	${CC} -I ${HDRS} -c $< -o ${<:.c=.o}
@@ -74,11 +67,12 @@ TRASH_EMOJI := 🗑️
 #--------------------------------------------------
 # Rule for building the "fdf" executable.
 $(NAME): $(OBJS)
-	@echo "$(CYAN)$(DANCING_EMOJI)Building $(NAME)...$(DANCING_EMOJI)$(RESET)"
+	@echo "$(CYAN)Building $(NAME)...$(RESET)"
+	$(MAKE) -C printf
 	$(MAKE) -C libft
 	$(MAKE) -C minilibx_macos
-	${CC} -o $(NAME) $(OBJS) $(LIBFT) -L$(MLX_DIR) -lmlx $(MLX_FLAG)
-	@echo "$(GREEN)$(MIC_DROP_EMOJI)$(NAME) binary created successfully! $(MIC_DROP_EMOJI)$(RESET)"
+	${CC} -o $(NAME) $(OBJS) $(LIBFT) $(PRINTF) -L$(MLX_DIR) -lmlx $(MLX_FLAG)
+	@echo "$(GREEN)$(NAME) binary created successfully! $(RESET)"
 
 #--------------------------------------------------
 # Default target: building the "fdf" executable when running 'make all'.
@@ -87,8 +81,9 @@ all: $(NAME)
 #--------------------------------------------------
 # Rule for cleaning up generated object files.
 clean:
-	@echo "$(YELLOW)$(TRASH_EMOJI) Cleaning up object files...$(TRASH_EMOJI)$(RESET)"
+	@echo "$(YELLOW)Cleaning up object files...$(RESET)"
 	${RM} $(OBJS)
+	$(MAKE) -C printf clean
 	$(MAKE) -C libft clean
 	$(MAKE) -C minilibx_macos clean
 
@@ -97,6 +92,7 @@ clean:
 fclean: clean
 	@echo "$(YELLOW)Cleaning up $(NAME) binary...$(RESET)"
 	${RM} $(NAME)
+	$(MAKE) -C printf fclean
 	$(MAKE) -C libft fclean
 
 #--------------------------------------------------
@@ -108,8 +104,6 @@ download_mlx:
 	else \
 	git clone git@github.com:42Paris/minilibx-linux.git \
 	&& mv minilibx-linux mlx; fi
-
-#--------------------------------------------------
 
 #--------------------------------------------------
 # Rule for recompiling the project from scratch.

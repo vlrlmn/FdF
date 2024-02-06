@@ -6,11 +6,11 @@
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/31 12:16:10 by vlomakin          #+#    #+#             */
-/*   Updated: 2023/08/03 12:32:38 by lomakinaval      ###   ########.fr       */
+/*   Updated: 2024/02/06 10:53:55 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libftprintf.h"
+#include "libftprintf.h"
 
 int	print_format(char specifier, va_list ap)
 {

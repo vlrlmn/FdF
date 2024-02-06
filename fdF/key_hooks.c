@@ -1,72 +1,77 @@
 #include "fdf.h"
-#define MAX_ZOOM_Z 10
-#define MIN_ZOOM_Z -10
-void free_data(fdf *data) 
+
+void	free_data(fdf *data)
 {
-    int i = 0;
-    if (data->matrix) 
-    {
-        while(i < data->height)
-        {
-            free(data->matrix[i]);
-            i++;
-        }
-        free(data->matrix);
-        data->matrix = NULL;
-    }
+	int	i;
+
+	i = 0;
+	if (data->matrix)
+	{
+		while (i < data->height)
+		{
+			free(data->matrix[i]);
+			i++;
+		}
+		free(data->matrix);
+		data->matrix = NULL;
+	}
 }
 
-int valid_key(int keycode)
+int	valid_key(int keycode)
 {
-    return(keycode >= 0 && keycode <= 130);
-    // return((keycode >= 123 && keycode <= 126) || keycode == 0 || keycode == 1);
+	return ((keycode >= 123 && keycode <= 126) || keycode == 0 || keycode == 1
+		|| (keycode >= 6 && keycode <= 9) || keycode == 45 || keycode == 11
+		|| keycode == 53 || (keycode >= 18 && keycode <= 21));
 }
 
-void exec_key(int keycode, fdf *data)
+void	exec_key(int keycode, fdf *data)
 {
-	printf("Hello from key_hook %d!\n", keycode);
-    if (keycode == 126)
-        data->window.shift_y -= 10;
-    if (keycode == 125)
-        data->window.shift_y += 10;
-    if (keycode == 124)
-        data->window.shift_x += 10;
-    if (keycode == 123)
-        data->window.shift_x -= 10;
-    if(keycode == 0)
-        data->window.angle += 0.05;
-    if (keycode == 1)
-        data->window.angle -= 0.05;
-    if (keycode == 6)
-        data->window.zoom += 3;
-    if (keycode == 7)
-        data->window.zoom -= 3;
-    if (keycode == 8)
-        data->window.zoom_z = fmin(data->window.zoom_z + 0.5, MAX_ZOOM_Z);
-    if (keycode == 9)
-        data->window.zoom_z = fmax(data->window.zoom_z - 0.5, MIN_ZOOM_Z);
-    if (keycode == 45)
-        data->window.pitch += 0.05;
-    if (keycode == 11)
-        data->window.pitch -= 0.05;
+	ft_printf(BOLD "Pressed button: %d!\n", keycode, RESET);
+	if (keycode == 126)
+		data->window.shift_y -= 10;
+	if (keycode == 125)
+		data->window.shift_y += 10;
+	if (keycode == 124)
+		data->window.shift_x += 10;
+	if (keycode == 123)
+		data->window.shift_x -= 10;
+	if (keycode == 0)
+		data->window.angle += 0.05;
+	if (keycode == 1)
+		data->window.angle -= 0.05;
+	if (keycode == 6)
+		data->window.zoom += 3;
+	if (keycode == 7)
+		data->window.zoom -= 3;
+	if (keycode == 8)
+		data->window.zoom_z = fmin(data->window.zoom_z + 0.5, MAX_ZOOM_Z);
+	if (keycode == 9)
+		data->window.zoom_z = fmax(data->window.zoom_z - 0.5, MIN_ZOOM_Z);
+	if (keycode == 45)
+		data->window.pitch += 0.05;
+	if (keycode == 11)
+		data->window.pitch -= 0.05;
 }
 
 int	key_hoo(int keycode, fdf *data)
 {
-    if(valid_key(keycode))
-    {
-        mlx_clear_window(data->mlx_ptr, data->win_ptr);
-        exec_key(keycode, data);
-        draw_map(data);
-    }
-    if (keycode >= 18 && keycode <= 21)
-        change_window(keycode, data);
-    if (keycode == 53)
-    {
-        mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-        free_data(data);
-        free(data);
-        exit(0);
-    }
-    return(0);
+	if (valid_key(keycode))
+	{
+		mlx_clear_window(data->mlx_ptr, data->win_ptr);
+		exec_key(keycode, data);
+		draw_map(data);
+	}
+	if (keycode >= 18 && keycode <= 21)
+		change_window(keycode, data);
+	if (keycode == 53)
+	{
+		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
+		free_data(data);
+		free(data);
+		printf(CYAN BOLD "Work with fdf program finished with ESC\n" RESET);
+		exit(0);
+	}
+	if (!valid_key(keycode))
+		ft_printf(RED "There is no command for this button\n" RESET);
+	return (0);
 }
