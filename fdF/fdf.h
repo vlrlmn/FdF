@@ -10,6 +10,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
+#include <err.h>
 
 # define ERROR_MESSAGE "Please write the names correct"
 # define MAX_ZOOM_Z 200
@@ -80,6 +81,7 @@ typedef struct
 typedef struct
 {
 	int				**matrix;
+	unsigned int **color_matrix;
 	int				height;
 	int				width;
 	int				z;
@@ -100,7 +102,7 @@ typedef struct
 void				default_parameters(fdf *data);
 int					read_file(char *filename, fdf *data);
 int					read_and_fill(int fd, fdf *data);
-void				fill_matrix(int *z_line, char *line);
+int	fill_matrix(int *z_line, unsigned int *color_line, char *line);
 int					word_count(char *str, char c);
 int					get_height(char *filename);
 void				bresenham(float x, float y, float x1, float y1, fdf *data);

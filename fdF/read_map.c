@@ -41,20 +41,66 @@ int	word_count(char *str, char c)
 	return (words);
 }
 
-void	fill_matrix(int *z_line, char *line)
-{
-	char	**nums;
-	int		i;
+// int is_valid_number(char *str) 
+// {
+//     if (*str == '-' || *str == '+')
+//         str++;
+//     if (*str == '\0')
+//         return 0;
+//     while (*str) 
+// 	{
+//         if (*str < '0' || *str > '9')
+//             return 1;
+//         str++;
+//     }
+//     return (0);
+// }
 
-	i = 0;
-	nums = ft_split(line, ' ');
-	while (nums[i])
+int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
+{
+    char	**nums;
+    int		i;
+	char **parts;
+	int j;
+
+    i = 0;
+	j = 0;
+    nums = ft_split(line, ' ');
+	if(!nums)
 	{
-		z_line[i] = ft_atoi(nums[i]);
+		ft_printf(RED BOLD "Malloc error\n" RESET);
+		return (1);
+	}
+    while (nums[i])
+	{
+		// if (!is_valid_number(nums[i]))
+		// {
+		// 	ft_printf(RED BOLD "INVALID CHARS\n" RESET);
+		// 	return (1);
+		// }
+		parts = ft_split(nums[i], ',');
+		if(!parts)
+		{
+			ft_printf(RED BOLD "Malloc error\n" RESET);
+			return (1);
+		}
+		z_line[i] = ft_atoi(parts[0]);
+		if (parts[1])
+			color_line[i] = (unsigned int)strtol(parts[1], NULL, 16); //write my own strtol
+		else
+			color_line[i] = 0;
+		j = 0;
+		while (parts[j])
+		{
+			free(parts[j]);
+			j++;
+		}
+		free(parts);
 		free(nums[i]);
 		i++;
 	}
-	free(nums);
+    free(nums);
+	return(0);
 }
 
 int is_valid_line(char *line)
@@ -76,47 +122,64 @@ int is_valid_line(char *line)
 int read_and_fill(int fd, fdf *data)
 {
     char *line;
-    int i = 0;
-
+    int i;
+	
+	i = 0;
+    data->color_matrix = ft_calloc(sizeof(unsigned int *), data->height);
+	if (!data->color_matrix)
+	{
+		ft_printf(RED BOLD "Memory allocation failed\n" RESET);
+		while (i-- > 0) 
+		{
+			free(data->matrix[i]);
+			free(data->color_matrix[i]);
+		}
+		free(data->matrix);
+		free(data->color_matrix);
+		close(fd);
+		return (1);
+	}
     while ((line = get_next_line(fd)) && i < data->height && *line)
     {
         if (!is_valid_line(line))
         {
             ft_printf(RED BOLD "There are unvalid characters!\n" RESET);
             free(line);
-            while (i-- > 0)
+            while (i-- > 0) 
+			{
                 free(data->matrix[i]);
+                free(data->color_matrix[i]);
+            }
             free(data->matrix);
-            return 1;
+            free(data->color_matrix);
+            return (1);
         }
-
         if (i == 0)
             data->width = word_count(line, ' ');
+		if (data->width != word_count(line, ' '))
+		{
+			ft_printf(RED BOLD "Not a rectangle!\n" RESET);
+            free(line);
+            while (i-- > 0) 
+			{
+                free(data->matrix[i]);
+                free(data->color_matrix[i]);
+            }
+            free(data->matrix);
+            free(data->color_matrix);
+            return (1);
+		}
         data->matrix[i] = ft_calloc(sizeof(int), data->width);
-        fill_matrix(data->matrix[i], line);
-        free(line);
-        i++;
+        data->color_matrix[i] = ft_calloc(sizeof(unsigned int), data->width);
+        if(fill_matrix(data->matrix[i], data->color_matrix[i], line))
+			return(1);
+		free(line);
+		i++;
+
     }
     return ((i != data->height));
 }
 
-// int	read_and_fill(int fd, fdf *data)
-// {
-// 	char	*line;
-// 	int		i;
-
-// 	i = 0;
-// 	while ((line = get_next_line(fd)) && i < data->height && *line)
-// 	{
-// 		if (i == 0)
-// 			data->width = word_count(line, ' ');
-// 		data->matrix[i] = ft_calloc(sizeof(int), data->width);
-// 		fill_matrix(data->matrix[i], line);
-// 		free(line);
-// 		i++;
-// 	}
-// 	return ((i != data->height));
-// }
 
 int	read_file(char *filename, fdf *data)
 {
@@ -133,192 +196,15 @@ int	read_file(char *filename, fdf *data)
 	if (data->height == 0) 
 	{
 		ft_printf(RED BOLD "File is empty!\n" RESET);
-		return 1;
-	}
-	data->matrix = ft_calloc(sizeof(int *), data->height);
-	if (!data->matrix)
-	{
-		close(fd);
 		return (1);
 	}
+	data->matrix = (int **)ft_calloc(data->height, sizeof(int *));
+    if (!data->matrix) 
+	{
+        close(fd);
+        return (1);
+    }
 	result = read_and_fill(fd, data);
 	close(fd);
 	return (result);
 }
-
-
-// int	get_height(char *filename)
-// {
-//     int		fd;
-//     int		height;
-//     char	*line;
-//     char	*trimmed_line;
-
-//     height = 0;
-//     fd = open(filename, O_RDONLY, 0);
-//     if (fd < 0)
-//         return (-1);
-//     while ((line = get_next_line(fd)))
-//     {
-//         trimmed_line = ft_strtrim(line, " \t\n");
-//         if (trimmed_line && *trimmed_line)
-//             height++;
-//         free(trimmed_line);
-//         free(line);
-//     }
-//     close(fd);
-//     return (height);
-// }
-
-
-// int is_hex_digit(char c) 
-// {
-//     return (ft_isdigit(c) || (c >= 'a' && c <= 'f') || (c >= 'A' && c <= 'F'));
-// }
-
-// int check_valid(char *str, int len) {
-//     int i = 0;
-    
-//     // Пропуск пробельных символов
-//     while (i < len && (str[i] == ' ' || str[i] == '\t' || str[i] == '\n')) 
-//         i++;
-//     // Проверка на отрицательное число
-//     if (i < len && str[i] == '-') 
-//         i++;
-//     // Проверка на шестнадцатеричное число
-//     if (i + 2 < len && str[i] == '0' && (str[i+1] == 'x' || str[i+1] == 'X')) {
-//         i += 2;
-//         if (i == len) return 1; // Нет цифр после "0x" или "0X"
-//         while (i < len) {
-//             if (!is_hex_digit(str[i])) 
-//                 return 1;
-//             i++;
-//         }
-//     } else {
-//         if (i == len) return 1; // Строка состоит только из пробелов или "-"
-//         while (i < len) {
-//             if (!ft_isdigit(str[i])) 
-//                 return 1;
-//             i++;
-//         }
-//     }
-//     return 0; // Данные валидны
-// }
-
-
-// int word_count(char *str, char c) 
-// {
-//     int i = 0;
-//     int words = 0;
-//     int start, end;
-
-//     while (str[i]) 
-// 	{
-//         while (str[i] == c && str[i] != '\0') 
-// 			i++;
-//         start = i;
-//         while (str[i] != c && str[i] != '\0') 
-// 			i++;
-//         end = i;
-//         if (start < end) 
-// 		{
-// 			while (start < end && str[start] == ' ') 
-// 				start++;
-// 			while (end > start && str[end - 1] == ' ') 
-// 				end--;
-// 			if (start < end) 
-// 			{
-// 				if (check_valid(&str[start], end - start)) 
-// 				{
-// 					printf("Returning due to check_valid failure: %d\n", -1);
-// 					return (-1);
-// 				}
-//         		words++;
-//     		}
-// 		}
-//     }
-//     printf("%d\n", words);
-//     return words;
-// }
-
-// void	fill_matrix(int *z_line, char *line)
-// {
-// 	char	**nums;
-// 	int		i;
-
-// 	i = 0;
-// 	nums = ft_split(line, ' ');
-// 	while (nums[i])
-// 	{
-// 		z_line[i] = ft_atoi(nums[i]);
-// 		free(nums[i]);
-// 		i++;
-// 	}
-// 	free(nums);
-// }
-
-// int	read_and_fill(int fd, fdf *data)
-// {
-// 	char	*line;
-// 	int		i;
-// 	int current_width;
-
-// 	i = 0;
-	
-// 	while ((line = get_next_line(fd)) && i < data->height && *line)
-// 	{
-// 		current_width = word_count(line, ' ');
-// 		if (current_width == -1)
-// 		{
-// 			ft_printf(RED BOLD "Invalid data in file\n" RESET);
-// 			free(line);
-// 			return (1);
-// 		}
-// 		if (i == 0)
-// 			data->width = current_width;
-// 		else if (data->width != current_width)
-// 		{
-// 			ft_printf(RED BOLD "Map should be a rectangle!\n" RESET);
-// 			free(line);
-// 			return (1);
-// 		}
-// 		data->matrix[i] = ft_calloc(sizeof(int), data->width);
-// 		if (!data->matrix[i])
-// 		{
-// 			free(line);
-// 			return (1);
-// 		}
-// 		fill_matrix(data->matrix[i], line);
-// 		free(line);
-// 		i++;
-// 	}
-// 	return ((i != data->height));
-// }
-
-// int	read_file(char *filename, fdf *data)
-// {
-// 	int	fd;
-// 	int	result;
-
-// 	fd = open(filename, O_RDONLY, 0);
-// 	if (fd < 0)
-// 	{
-// 		ft_printf(RED BOLD "File cannot be opened!\n" RESET);
-// 		return (1);
-// 	}
-// 	data->height = get_height(filename);
-// 	if (data->height == 0)
-// 	{
-// 		ft_printf(RED BOLD"Seems you have an empty file!\n" RESET);
-// 		return(1);
-// 	}
-// 	data->matrix = ft_calloc(sizeof(int *), data->height);
-// 	if (!data->matrix)
-// 	{
-// 		close(fd);
-// 		return (1);
-// 	}
-// 	result = read_and_fill(fd, data);
-// 	close(fd);
-// 	return (result);
-// }
