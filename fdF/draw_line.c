@@ -22,6 +22,17 @@ void	isometric_func(float *x, float *y, fdf *data, int z)
 		- data->isometric.scaled_z * sin(data->window.pitch);
 }
 
+void	my_mlx_pixel_put(fdf *data, int x, int y, int color)
+{
+	char	*dst;
+
+	if (x >= 0 && x < data->window.win_x && y >= 0 && y < data->window.win_y)
+	{
+		dst = data->img_string + (y * data->lsize + x * (data->bits / 8));
+		*(unsigned int*)dst = color;
+	}
+}
+
 void	color_pixels(fdf *data, float x, float y)
 {
 	int	i;
@@ -34,7 +45,7 @@ void	color_pixels(fdf *data, float x, float y)
 		if (x >= 0 && x < data->window.win_x && y >= 0
 			&& y < data->window.win_y)
 		{
-			mlx_pixel_put(data->mlx_ptr, data->win_ptr, x, y,
+			my_mlx_pixel_put(data, x, y,
 				data->gradient.current_color);
 			x += data->isometric.x_step;
 			y += data->isometric.y_step;
@@ -44,6 +55,7 @@ void	color_pixels(fdf *data, float x, float y)
 			return ;
 	}
 }
+
 void	bresenham(float x, float y, float x1, float y1, fdf *data)
 {
 	data->z = data->matrix[(int)y][(int)x] * data->window.zoom_z;
@@ -72,6 +84,13 @@ void	draw_map(fdf *data)
 	int	y;
 
 	y = 0;
+	if (data->img == NULL) {
+		data->img = mlx_new_image(data->mlx_ptr, data->window.win_x, data->window.win_y);
+		data->img_string = mlx_get_data_addr(data->img, &data->bits, &data->lsize, &data->endian);
+	}
+	else
+		ft_bzero(data->img_string, data->window.win_x * data->window.win_y * (data->bits / 8));
+	calculate_min_max_z(data);
 	while (y < data->height)
 	{
 		x = 0;
@@ -85,4 +104,5 @@ void	draw_map(fdf *data)
 		}
 		y++;
 	}
+	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img, 0, 0);
 }

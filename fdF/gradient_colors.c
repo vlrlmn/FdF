@@ -17,56 +17,35 @@ void	interpolate_color(float step_ratio, int *current_color, fdf *data)
 	*current_color = ((data->rgb.r << 16) | (data->rgb.g << 8) | data->rgb.b);
 }
 
-int	get_min_z(fdf *data)
+void calculate_min_max_z(fdf *data) 
 {
-	int	min_z;
-	int	x;
-	int	y;
+    int x;
+    int y;
 
-	min_z = INT_MAX;
-	y = 0;
-	while (y < data->height)
-	{
-		x = 0;
-		while (x < data->width)
-		{
-			if (data->matrix[y][x] < min_z)
-				min_z = data->matrix[y][x];
-			x++;
-		}
-		y++;
-	}
-	return (min_z);
-}
-
-int	get_max_z(fdf *data)
-{
-	int	max_z;
-	int	x;
-	int	y;
-
-	max_z = INT_MIN;
-	y = 0;
-	while (y < data->height)
-	{
-		x = 0;
-		while (x < data->width)
-		{
-			if (data->matrix[y][x] > max_z)
-				max_z = data->matrix[y][x];
-			x++;
-		}
-		y++;
-	}
-	return (max_z);
+    y = 0;
+    data->gradient.min_z = INT_MAX;
+    data->gradient.max_z = INT_MIN;
+    while(y < data->height)
+    {
+        x = 0;
+        while(x < data->width)
+        {
+            if (data->matrix[y][x] < data->gradient.min_z)
+                data->gradient.min_z = data->matrix[y][x];
+            if (data->matrix[y][x] > data->gradient.max_z)
+                data->gradient.max_z = data->matrix[y][x];
+            x++;
+        }
+        y++;
+    }
 }
 
 int	determine_color_based_on_z(int z, fdf *data)
 {
 	float adjust_z;
 
-	data->gradient.min_z = get_min_z(data);
-	data->gradient.max_z = get_max_z(data);
+    if (data->gradient.max_z == data->gradient.min_z) 
+        return (data->gradient.min_color);
 	adjust_z = (float)(z - data->gradient.min_z) / (data->gradient.max_z
 			- data->gradient.min_z);
 	data->rgb.min_r = (data->gradient.min_color >> 16) & 0xFF;

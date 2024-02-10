@@ -1,7 +1,8 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "limits.h": "c"
+        "limits.h": "c",
+        "__locale": "c"
     },
     "[c]": {
         "editor.defaultFormatter": "keyhr.42-c-format"

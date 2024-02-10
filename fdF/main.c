@@ -2,15 +2,15 @@
 
 void	default_parameters(fdf *data)
 {
-	data->window.zoom = 30;
+	data->window.zoom = 20;
 	data->window.z_height = 0.9;
 	data->window.zoom_z = 1.5;
 	data->window.angle = 0.6;
 	data->window.pitch = 1.03;
-	data->window.win_x = 1700;
-	data->window.win_y = 1700;
-	data->window.shift_x = data->window.win_x / 4;
-	data->window.shift_y = data->window.win_y / 4;
+	data->window.win_x = 1500;
+	data->window.win_y = 1500;
+	data->window.shift_x = data->window.win_x / 3;
+	data->window.shift_y = data->window.win_y / 43;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, data->window.win_x,
 			data->window.win_y, "FDF");
@@ -45,7 +45,6 @@ int	main(int argc, char **argv)
 		return (ft_printf(RED "Use command ./fdf filename.fdf\n" RESET));
         exit(1);
     }
-	// check if file is valid and args are correct
 	fdf *data;
 	data = (fdf *)malloc(sizeof(fdf));
 	if (!data)

@@ -61,8 +61,6 @@ int	key_hoo(int keycode, fdf *data)
 		exec_key(keycode, data);
 		draw_map(data);
 	}
-	if (keycode >= 18 && keycode <= 21)
-		change_window(keycode, data);
 	if (keycode == 53)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
