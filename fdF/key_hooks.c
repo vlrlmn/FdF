@@ -5,11 +5,12 @@ void	free_data(fdf *data)
 	int	i;
 
 	i = 0;
-	if (data->matrix)
+	if (data->matrix) 
 	{
-		while (i < data->height)
+		while (i < data->height) 
 		{
 			free(data->matrix[i]);
+			i++;
 		}
 		free(data->matrix);
 		data->matrix = NULL;
