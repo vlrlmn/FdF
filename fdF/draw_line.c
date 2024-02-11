@@ -96,10 +96,16 @@ void	draw_map(fdf *data)
 	if (data->img == NULL) 
 	{
 		data->img = mlx_new_image(data->mlx_ptr, data->window.win_x, data->window.win_y);
+		if (!data->img)
+			return;
 		data->img_string = mlx_get_data_addr(data->img, &data->bits, &data->lsize, &data->endian);
+		if (!data->img_string)
+			return;
 	}
 	else
+	{
 		ft_bzero(data->img_string, data->window.win_x * data->window.win_y * (data->bits / 8));
+	}
 	calculate_min_max_z(data);
 	while (y < data->height)
 	{

@@ -16,6 +16,8 @@ void	default_parameters(fdf *data)
 			data->window.win_y, "FDF");
 	data->gradient.min_color = 0x800080;
 	data->gradient.max_color = 0x00ff00;
+	data->img_string = NULL;
+	data->img = NULL;
 }
 
 int	close_window(fdf *data)
@@ -51,6 +53,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	else if (read_file(argv[1], data))
 	{
+		free_data(data);
 		free(data);
 		exit(1);
 	}

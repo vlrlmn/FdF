@@ -2,7 +2,9 @@
     "files.associations": {
         "stdlib.h": "c",
         "limits.h": "c",
-        "__locale": "c"
+        "__locale": "c",
+        "tuple": "c",
+        "type_traits": "c"
     },
     "[c]": {
         "editor.defaultFormatter": "keyhr.42-c-format"

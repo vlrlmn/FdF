@@ -41,65 +41,88 @@ int	word_count(char *str, char c)
 	return (words);
 }
 
-// int is_valid_number(char *str) 
-// {
-//     if (*str == '-' || *str == '+')
-//         str++;
-//     if (*str == '\0')
-//         return 0;
-//     while (*str) 
-// 	{
-//         if (*str < '0' || *str > '9')
-//             return 1;
-//         str++;
-//     }
-//     return (0);
-// }
+int is_valid_number(char *str) 
+{
+	// ft_printf(GREEN BOLD "Check value %s\n" RESET, str);
+    if (*str == '-' || *str == '+')
+        str++;
+    if (*str == '\0')
+        return 1;
+    while (*str) 
+	{
+        if (*str < '0' || *str > '9')
+            return 0;
+        str++;
+    }
+    return (1);
+}
+
+void free_array(char **array)
+{
+	int j;
+	j = 0;
+	while (array[j])
+	{
+		free(array[j]);
+		j++;
+	}
+	free(array);
+}
 
 int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 {
-    char	**nums;
+    char	**tockens;
     int		i;
-	char **parts;
-	int j;
+	char **pair;
+	char *num;
+	char *color;
+	char *token;
 
     i = 0;
-	j = 0;
-    nums = ft_split(line, ' ');
-	if(!nums)
+    tockens = ft_split(line, ' ');
+	if(!tockens)
 	{
 		ft_printf(RED BOLD "Malloc error\n" RESET);
 		return (1);
 	}
-    while (nums[i])
+    while (tockens[i])
 	{
-		// if (!is_valid_number(nums[i]))
-		// {
-		// 	ft_printf(RED BOLD "INVALID CHARS\n" RESET);
-		// 	return (1);
-		// }
-		parts = ft_split(nums[i], ',');
-		if(!parts)
+	    // ft_printf(GREEN BOLD "Got tocken %s\n" RESET, tockens[i]);
+
+		token = ft_strtrim(tockens[i], "\n");
+		free(tockens[i]);
+
+		pair = ft_split(token, ',');
+		free(token);
+
+		// ft_printf(GREEN BOLD "Got pair %s\n" RESET, *pair);
+		if(!pair)
 		{
 			ft_printf(RED BOLD "Malloc error\n" RESET);
 			return (1);
 		}
-		z_line[i] = ft_atoi(parts[0]);
-		if (parts[1])
-			color_line[i] = (unsigned int)strtol(parts[1], NULL, 16); //write my own strtol
+
+		num = pair[0];
+		if (!is_valid_number(num))
+		{
+			ft_printf(RED BOLD "INVALID CHARS\n" RESET);
+			return (1);
+		}
+		z_line[i] = ft_atoi(num);
+
+		color = pair[1];
+		if (color)
+		{
+			// TODO: check hex
+			color_line[i] = (unsigned int)strtol(color, NULL, 16); //write my own strtol
+		}
 		else
 			color_line[i] = 0;
-		j = 0;
-		while (parts[j])
-		{
-			free(parts[j]);
-			j++;
-		}
-		free(parts);
-		free(nums[i]);
+		
+		free_array(pair);
 		i++;
 	}
-    free(nums);
+    free(tockens);
 	return(0);
 }
 
@@ -193,7 +216,7 @@ int	read_file(char *filename, fdf *data)
 		return (1);
 	}
 	data->height = get_height(filename);
-	if (data->height == 0) 
+	if (data->height == 0)
 	{
 		ft_printf(RED BOLD "File is empty!\n" RESET);
 		return (1);

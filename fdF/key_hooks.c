@@ -10,10 +10,14 @@ void	free_data(fdf *data)
 		while (i < data->height)
 		{
 			free(data->matrix[i]);
-			i++;
 		}
 		free(data->matrix);
 		data->matrix = NULL;
+	}
+	if (data->img_string)
+	{
+		free(data->img_string);
+		data->img_string = NULL;
 	}
 }
 
