@@ -1,27 +1,5 @@
 #include "fdf.h"
 
-void	free_data(fdf *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->matrix) 
-	{
-		while (i < data->height) 
-		{
-			free(data->matrix[i]);
-			i++;
-		}
-		free(data->matrix);
-		data->matrix = NULL;
-	}
-	if (data->img_string)
-	{
-		free(data->img_string);
-		data->img_string = NULL;
-	}
-}
-
 int	valid_key(int keycode)
 {
 	return ((keycode >= 123 && keycode <= 126) || keycode == 0 || keycode == 1
