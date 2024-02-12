@@ -1,5 +1,21 @@
 #include "fdf.h"
 
+int is_valid_line(char *line)
+{
+    int i = 0;
+    int has_valid_char = 0;
+
+    while (line[i] && line[i] != '\n')
+    {
+        if (line[i] != ' ' && line[i] != '\t')
+            has_valid_char = 1;
+        else if (line[i] == '\t')
+            return 0;
+        i++;
+    }
+    return (has_valid_char);
+}
+
 int	get_height(char *filename)
 {
 	int		fd;
@@ -43,7 +59,7 @@ int	word_count(char *str, char c)
 
 int is_valid_number(char *str) 
 {
-	// ft_printf(GREEN BOLD "Check value %s\n" RESET, str);
+	//ft_printf(GREEN BOLD "  Check value %s\n" RESET, str);
     if (*str == '-' || *str == '+')
         str++;
     if (*str == '\0')
@@ -64,6 +80,7 @@ void free_array(char **array)
 	while (array[j])
 	{
 		free(array[j]);
+		array[j] = NULL;
 		j++;
 	}
 	free(array);
@@ -71,7 +88,7 @@ void free_array(char **array)
 
 int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 {
-    char	**tockens;
+    char	**tokens;
     int		i;
 	char **pair;
 	char *num;
@@ -79,23 +96,25 @@ int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 	char *token;
 
     i = 0;
-    tockens = ft_split(line, ' ');
-	if(!tockens)
+    tokens = ft_split(line, ' ');
+	if(!tokens)
 	{
 		ft_printf(RED BOLD "Malloc error\n" RESET);
 		return (1);
 	}
-    while (tockens[i])
+    while (tokens[i])
 	{
-	    // ft_printf(GREEN BOLD "Got tocken %s\n" RESET, tockens[i]);
+	    //ft_printf(GREEN BOLD "Got token %s\n" RESET, tokens[i]);
 
-		token = ft_strtrim(tockens[i], "\n");
-		free(tockens[i]);
+		token = ft_strtrim(tokens[i], "\n");
+		if (!token || *token == '\0')
+			break;
 
 		pair = ft_split(token, ',');
+
 		free(token);
 
-		// ft_printf(GREEN BOLD "Got pair %s\n" RESET, *pair);
+		//ft_printf(GREEN BOLD "  Got pair %s\n" RESET, *pair);
 		if(!pair)
 		{
 			ft_printf(RED BOLD "Malloc error\n" RESET);
@@ -118,28 +137,21 @@ int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 		}
 		else
 			color_line[i] = 0;
-		
 		free_array(pair);
 		i++;
 	}
-    free(tockens);
+    free_array(tokens);
 	return(0);
 }
 
-int is_valid_line(char *line)
+void free_and_null_char_ptr(char **obj)
 {
-    int i = 0;
-    int has_valid_char = 0;
+	if (!obj)
+		return;
 
-    while (line[i] && line[i] != '\n')
-    {
-        if (line[i] != ' ' && line[i] != '\t')
-            has_valid_char = 1;
-        else if (line[i] == '\t')
-            return 0;
-        i++;
-    }
-    return has_valid_char;
+	free(*obj);
+	
+	*obj = NULL;
 }
 
 int read_and_fill(int fd, fdf *data)
@@ -178,14 +190,18 @@ int read_and_fill(int fd, fdf *data)
             return (1);
         }
         if (i == 0)
+		{
             data->width = word_count(line, ' ');
+			ft_printf(GREEN BOLD "First line width %d\n" RESET, data->width);
+		}
 		if (data->width != word_count(line, ' '))
 		{
+			ft_printf(RED BOLD "%d line len =%d\n" RESET, i, word_count(line, ' '));
 			ft_printf(RED BOLD "Not a rectangle!\n" RESET);
-            free(line);
+			free_and_null_char_ptr(&line);
             while (i-- > 0) 
 			{
-                free(data->matrix[i]);
+				free(data->matrix[i]);
                 free(data->color_matrix[i]);
             }
             free(data->matrix);
