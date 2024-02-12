@@ -4,13 +4,13 @@
 # include "libft/libft.h"
 # include "minilibx_macos/mlx.h"
 # include "printf/libftprintf.h"
+# include <err.h>
 # include <fcntl.h>
 # include <limits.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-#include <err.h>
 
 # define ERROR_MESSAGE "Please write the names correct"
 # define MAX_ZOOM_Z 200
@@ -81,7 +81,7 @@ typedef struct
 typedef struct
 {
 	int				**matrix;
-	unsigned int **color_matrix;
+	unsigned int	**col_matrix;
 	int				height;
 	int				width;
 	int				z;
@@ -102,7 +102,8 @@ typedef struct
 void				default_parameters(fdf *data);
 int					read_file(char *filename, fdf *data);
 int					read_and_fill(int fd, fdf *data);
-int	fill_matrix(int *z_line, unsigned int *color_line, char *line);
+int					fill_matrix(int *z_line, unsigned int *color_line,
+						char *line);
 int					word_count(char *str, char c);
 int					get_height(char *filename);
 void				bresenham(float x, float y, float x1, float y1, fdf *data);
@@ -110,12 +111,27 @@ void				draw_map(fdf *data);
 void				isometric_func(float *x, float *y, fdf *data, int z);
 int					key_hoo(int keycode, fdf *data);
 float				get_max(float a, float b);
-void 				calculate_min_max_z(fdf *data);
+void				calculate_min_max_z(fdf *data);
 void				interpolate_color(float step_ratio, int *current_color,
 						fdf *data);
 int					determine_color_based_on_z(int z, fdf *data);
 void				color_pixels(fdf *data, float x, float y);
 void				free_data(fdf *data);
 int					close_window(fdf *data);
-
+void				free_matrix(fdf *data);
+void				free_color_matrix(fdf *data);
+void				free_data(fdf *data);
+int					check_file(char *file);
+int	print_err(char *msg);
+int mem_err(int fd, char *msg);
+int err_and_close(int fd);
+int err_free(char *line, char *msg);
+unsigned int ft_strtol(char *color);
+int	valid_color_format(char *color);
+void	free_array(char **array);
+int	is_valid_line(char *line);
+int	is_valid_number(char *str);
+int	valid_color_format(char *color);
+unsigned int	ft_strtol(char *color);
+int err_free_arr(void	free_array(char**), char **array, char *msg);
 #endif

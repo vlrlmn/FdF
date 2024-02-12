@@ -6,7 +6,7 @@
 #    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/08/08 16:24:26 by atucci            #+#    #+#              #
-#    Updated: 2024/02/12 12:51:30 by lomakinaval      ###   ########.fr        #
+#    Updated: 2024/02/12 17:56:55 by lomakinaval      ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,10 @@ SRC = ./main.c \
 	  ./draw_line.c \
 	  ./key_hooks.c \
 	  ./gradient_colors.c \
+	  ./destroy_and_free.c \
+	  ./validate_data.c \
+	  ./return_error.c \
+	  ./utils.c \
 
 OBJS = $(SRC:.c=.o)
 
@@ -66,15 +70,6 @@ fclean: clean
 	$(MAKE) -C printf fclean
 	$(MAKE) -C libft fclean
 
-download_mlx:
-	if [ -e $(MLX_DIR) ]; \
-	then \
-	echo "MiniLibX's directory detected"; \
-	else \
-	git clone git@github.com:42Paris/minilibx-linux.git \
-	&& mv minilibx-linux mlx; fi
-
 re: fclean all
 
 .PHONY: all clean fclean re
-

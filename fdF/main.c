@@ -10,94 +10,37 @@ void	default_parameters(fdf *data)
 	data->window.win_x = 1500;
 	data->window.win_y = 1500;
 	data->window.shift_x = data->window.win_x / 3;
-	data->window.shift_y = data->window.win_y / 43;
+	data->window.shift_y = data->window.win_y / 3;
 	data->mlx_ptr = mlx_init();
 	data->win_ptr = mlx_new_window(data->mlx_ptr, data->window.win_x,
 			data->window.win_y, "FDF");
 	data->gradient.min_color = 0x800080;
 	data->gradient.max_color = 0x00ff00;
 	data->matrix = NULL;
-	data->color_matrix = NULL;
+	data->col_matrix = NULL;
 	data->img_string = NULL;
 	data->img = NULL;
 }
 
-void	free_data(fdf *data)
-{
-	int	i;
-
-	i = 0;
-	if (data->matrix) 
-	{
-		while (i < data->height) 
-		{
-			if (data->matrix[i])
-			{
-				free(data->matrix[i]);
-				data->matrix[i] = NULL;
-			}
-			i++;
-		}
-		free(data->matrix);
-		data->matrix = NULL;
-	}
-	if (data->color_matrix) 
-	{
-		while (i < data->height) 
-		{
-			if (data->color_matrix[i])
-			{
-				free(data->color_matrix[i]);
-				data->color_matrix[i] = NULL;
-			}
-			i++;
-		}
-		free(data->color_matrix);
-		data->color_matrix = NULL;
-	}
-}
-
-int	close_window(fdf *data)
-{
-	ft_printf(CYAN BOLD "Work with fdf program finished with cross sign\n" RESET);
-	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
-	free_data(data);
-	free(data);
-	exit(0);
-}
-
-int check_file(char *file)
-{
-    int len;
-
-    len = ft_strlen(file);
-    if (ft_strncmp(file + len - 4, ".fdf", 4) == 0)
-        return (0);
-    else
-	    return (1);
-}
-
 int	main(int argc, char **argv)
 {
-    if (argc != 2 || !argv[1] || check_file(argv[1]))
-    {
-		return (ft_printf(RED "Use command ./fdf filename.fdf\n" RESET));
-        exit(1);
-    }
-	fdf *data;
+	fdf	*data;
+
+	if (argc != 2 || !argv[1] || check_file(argv[1]))
+	{
+		ft_printf(RED "Use command ./fdf filename.fdf\n" RESET);
+		exit(1);
+	}
 	data = (fdf *)malloc(sizeof(fdf));
 	if (!data)
 		exit(EXIT_FAILURE);
-
 	default_parameters(data);
-
 	if (read_file(argv[1], data))
 	{
 		free_data(data);
 		free(data);
 		exit(1);
 	}
-	
 	draw_map(data);
 	mlx_hook(data->win_ptr, 2, 1, key_hoo, data);
 	mlx_hook(data->win_ptr, 17, 0L, close_window, data);

@@ -58,8 +58,8 @@ void	color_pixels(fdf *data, float x, float y)
 
 void	bresenham(float x, float y, float x1, float y1, fdf *data)
 {
-	unsigned int start_color = data->color_matrix[(int)y][(int)x];
-    unsigned int end_color = data->color_matrix[(int)y1][(int)x1];
+	unsigned int start_color = data->col_matrix[(int)y][(int)x];
+    unsigned int end_color = data->col_matrix[(int)y1][(int)x1];
 
 	data->z = data->matrix[(int)y][(int)x] * data->window.zoom_z;
 	data->z1 = data->matrix[(int)y1][(int)x1] * data->window.zoom_z;
