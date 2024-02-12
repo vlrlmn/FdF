@@ -86,6 +86,30 @@ void free_array(char **array)
 	free(array);
 }
 
+int valid_color_format(char *color)
+{
+	int i;
+	int length;
+
+	i = 0;
+
+	length = ft_strlen(color);
+	if (length >= 2 && (color[0] == '0' && (color[1] == 'x' || color[1] == 'X'))) 
+	{
+        color += 2;
+        length -= 2;
+    }
+	if (length != 6 && length != 3)
+        return (1);
+	while(i < length)
+	{
+		if(!(((color[i])>= '0' && color[i] <= '9') || (color[i] >= 'a' && color[i] <= 'f') || (color[i] >= 'A' && color[i] <= 'F')))
+			return(1);
+		i++;
+	}
+	return(0);
+}
+
 int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 {
     char	**tokens;
@@ -94,7 +118,8 @@ int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 	char *num;
 	char *color;
 	char *token;
-
+	char *hasComma;
+	
     i = 0;
     tokens = ft_split(line, ' ');
 	if(!tokens)
@@ -111,7 +136,7 @@ int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 			break;
 
 		pair = ft_split(token, ',');
-
+        hasComma = ft_strchr(token,',');
 		free(token);
 
 		//ft_printf(GREEN BOLD "  Got pair %s\n" RESET, *pair);
@@ -125,15 +150,21 @@ int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 		if (!is_valid_number(num))
 		{
 			ft_printf(RED BOLD "INVALID CHARS\n" RESET);
+			free_array(pair);
 			return (1);
 		}
 		z_line[i] = ft_atoi(num);
 
 		color = pair[1];
-		if (color)
+		if (color && !valid_color_format(color))
 		{
-			// TODO: check hex
 			color_line[i] = (unsigned int)strtol(color, NULL, 16); //write my own strtol
+		}
+		else if (hasComma || (color && valid_color_format(color)))
+		{
+			ft_printf(RED BOLD"Check the color format\n" RESET);
+			free_array(pair);
+			return(1);
 		}
 		else
 			color_line[i] = 0;
