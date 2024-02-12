@@ -144,15 +144,15 @@ int	fill_matrix(int *z_line, unsigned int *color_line, char *line)
 	return(0);
 }
 
-void free_and_null_char_ptr(char **obj)
-{
-	if (!obj)
-		return;
+// void free_and_null_char_ptr(char **obj)
+// {
+// 	if (!obj)
+// 		return;
 
-	free(*obj);
+// 	free(*obj);
 	
-	*obj = NULL;
-}
+// 	*obj = NULL;
+// }
 
 int read_and_fill(int fd, fdf *data)
 {
@@ -160,20 +160,6 @@ int read_and_fill(int fd, fdf *data)
     int i;
 	
 	i = 0;
-    data->color_matrix = ft_calloc(sizeof(unsigned int *), data->height);
-	if (!data->color_matrix)
-	{
-		ft_printf(RED BOLD "Memory allocation failed\n" RESET);
-		while (i-- > 0) 
-		{
-			free(data->matrix[i]);
-			free(data->color_matrix[i]);
-		}
-		free(data->matrix);
-		free(data->color_matrix);
-		close(fd);
-		return (1);
-	}
     while ((line = get_next_line(fd)) && i < data->height && *line)
     {
         if (!is_valid_line(line))
@@ -185,31 +171,29 @@ int read_and_fill(int fd, fdf *data)
                 free(data->matrix[i]);
                 free(data->color_matrix[i]);
             }
-            free(data->matrix);
-            free(data->color_matrix);
             return (1);
         }
         if (i == 0)
 		{
             data->width = word_count(line, ' ');
-			ft_printf(GREEN BOLD "First line width %d\n" RESET, data->width);
+			//ft_printf(GREEN BOLD "First line width %d\n" RESET, data->width);
 		}
 		if (data->width != word_count(line, ' '))
 		{
 			ft_printf(RED BOLD "%d line len =%d\n" RESET, i, word_count(line, ' '));
 			ft_printf(RED BOLD "Not a rectangle!\n" RESET);
-			free_and_null_char_ptr(&line);
+			free(line);
             while (i-- > 0) 
 			{
+				//ft_printf(GREEN BOLD "- line %d dealloc\n" RESET, i);
 				free(data->matrix[i]);
                 free(data->color_matrix[i]);
             }
-            free(data->matrix);
-            free(data->color_matrix);
             return (1);
 		}
-        data->matrix[i] = ft_calloc(sizeof(int), data->width);
-        data->color_matrix[i] = ft_calloc(sizeof(unsigned int), data->width);
+		//ft_printf(GREEN BOLD " + line %d alloc\n" RESET, i);
+        data->matrix[i] = ft_calloc(data->width, sizeof(int));
+        data->color_matrix[i] = ft_calloc(data->width, sizeof(unsigned int));
         if(fill_matrix(data->matrix[i], data->color_matrix[i], line))
 			return(1);
 		free(line);
@@ -237,13 +221,35 @@ int	read_file(char *filename, fdf *data)
 		ft_printf(RED BOLD "File is empty!\n" RESET);
 		return (1);
 	}
+
 	data->matrix = (int **)ft_calloc(data->height, sizeof(int *));
     if (!data->matrix) 
 	{
-        close(fd);
+        ft_printf(RED BOLD "Memory allocation failed\n" RESET);
+		close(fd);
         return (1);
     }
+
+	data->color_matrix = (unsigned int **)ft_calloc(data->height, sizeof(unsigned int *));
+	if (!data->color_matrix)
+	{
+		ft_printf(RED BOLD "Memory allocation failed\n" RESET);
+		free(data->matrix);
+		data->matrix = NULL;
+		close(fd);
+		return (1);
+	}
+
 	result = read_and_fill(fd, data);
+	if (result == 1)
+	{
+		free(data->matrix);
+		free(data->color_matrix);
+		data->matrix = NULL;
+		data->color_matrix = NULL;
+		close(fd);
+		return (1);
+	}
 	close(fd);
 	return (result);
 }
