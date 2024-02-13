@@ -1,17 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   destroy_and_free.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/13 16:56:41 by vlomakin          #+#    #+#             */
+/*   Updated: 2024/02/13 17:04:13 by vlomakin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
-int	close_window(fdf *data)
+int	close_window(t_fdf *data)
 {
-	ft_printf(CYAN BOLD "Work with fdf program finished with cross sign\n" RESET);
+	ft_printf(CYAN BOLD "Program finished with cross sign\n" RESET);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free_data(data);
 	free(data);
 	exit(0);
 }
 
-void free_matrix(fdf *data)
+void	free_matrix(t_fdf *data)
 {
-    int i;
+	int	i;
 
 	i = 0;
 	while (i < data->height)
@@ -27,9 +39,9 @@ void free_matrix(fdf *data)
 	data->matrix = NULL;
 }
 
-void free_color_matrix(fdf *data)
+void	free_color_matrix(t_fdf *data)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < data->height)
@@ -45,15 +57,15 @@ void free_color_matrix(fdf *data)
 	data->col_matrix = NULL;
 }
 
-void	free_data(fdf *data)
+void	free_data(t_fdf *data)
 {
 	if (data->matrix)
 	{
-        free_matrix(data);
+		free_matrix(data);
 	}
 	if (data->col_matrix)
 	{
-        free_color_matrix(data);
+		free_color_matrix(data);
 	}
 }
 

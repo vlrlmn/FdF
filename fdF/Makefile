@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+         #
+#    By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/08/08 16:24:26 by atucci            #+#    #+#              #
-#    Updated: 2024/02/12 17:56:55 by lomakinaval      ###   ########.fr        #
+#    Created: 2024/02/13 16:53:34 by vlomakin          #+#    #+#              #
+#    Updated: 2024/02/13 16:53:37 by vlomakin         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRC = ./main.c \
 	  ./validate_data.c \
 	  ./return_error.c \
 	  ./utils.c \
+	  ./fill_matrix.c
 
 OBJS = $(SRC:.c=.o)
 

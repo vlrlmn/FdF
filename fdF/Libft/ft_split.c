@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
+/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/10 16:23:29 by vlomakin          #+#    #+#             */
-/*   Updated: 2023/12/18 17:39:13 by lomakinaval      ###   ########.fr       */
+/*   Updated: 2024/02/13 17:05:32 by vlomakin         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,37 +53,34 @@ int	word_length(char const *s, char c)
 	return (i);
 }
 
-char **copy_words(char const *s, char c, int words, char **result)
+char	**copy_words(char const *s, char c, int words, char **result)
 {
-    int i;
-    int j;
-    int word_len;
+	int	i;
+	int	j;
+	int	word_len;
 
-    i = 0;
-    j = 0;
-    while (i < words)
-    {
-        while (s[j] && s[j] == c)
-            j++;
-        word_len = word_length(&s[j], c);
-        result[i] = malloc(sizeof(char) * (word_len + 1));
-        if (!result[i])
-        {
-            while (i > 0)
-            {
-                free(result[--i]);
-            }
-            free(result);
-            return (NULL);
-        }
-        ft_strlcpy(result[i], &s[j], word_len + 1);
-        j += word_len;
-        i++;
-    }
-    result[i] = NULL;
-    return (result);
+	i = 0;
+	j = 0;
+	while (i < words)
+	{
+		while (s[j] && s[j] == c)
+			j++;
+		word_len = word_length(&s[j], c);
+		result[i] = malloc(sizeof(char) * (word_len + 1));
+		if (!result[i])
+		{
+			while (i > 0)
+				free(result[--i]);
+			free(result);
+			return (NULL);
+		}
+		ft_strlcpy(result[i], &s[j], word_len + 1);
+		j += word_len;
+		i++;
+	}
+	result[i] = NULL;
+	return (result);
 }
-
 
 char	**ft_split(char const *s, char c)
 {
@@ -97,6 +94,6 @@ char	**ft_split(char const *s, char c)
 	if (!result)
 		return (NULL);
 	if (!copy_words(s, c, words, result))
-		return(NULL);
-	return(result);
+		return (NULL);
+	return (result);
 }

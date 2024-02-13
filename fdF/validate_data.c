@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   validate_data.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/13 16:41:42 by vlomakin          #+#    #+#             */
+/*   Updated: 2024/02/13 16:48:29 by vlomakin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 int	check_file(char *file)
@@ -54,8 +66,8 @@ int	is_valid_number(char *str)
 
 int	is_valid_line(char *line)
 {
-	int i;
-	int has_valid_char;
+	int	i;
+	int	has_valid_char;
 
 	i = 0;
 	has_valid_char = 0;
@@ -68,4 +80,15 @@ int	is_valid_line(char *line)
 		i++;
 	}
 	return (has_valid_char);
+}
+
+int	is_pair_invalid(char **pair)
+{
+	if (!is_valid_number(pair[0]))
+		return (err_free_arr(free_array, pair,
+				RED BOLD "Num invalid error\n" RESET));
+	if (pair[1] && valid_color_format(pair[1]))
+		return (err_free_arr(free_array, pair,
+				RED BOLD "Color invalid error\n" RESET));
+	return (0);
 }

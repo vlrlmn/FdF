@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_hooks.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/02/13 16:52:47 by vlomakin          #+#    #+#             */
+/*   Updated: 2024/02/13 16:53:30 by vlomakin         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fdf.h"
 
 int	valid_key(int keycode)
@@ -7,7 +19,7 @@ int	valid_key(int keycode)
 		|| keycode == 53 || (keycode >= 18 && keycode <= 21));
 }
 
-void	exec_key(int keycode, fdf *data)
+void	exec_key(int keycode, t_fdf *data)
 {
 	ft_printf(BOLD "Pressed button: %d!\n", keycode, RESET);
 	if (keycode == 126)
@@ -36,7 +48,7 @@ void	exec_key(int keycode, fdf *data)
 		data->window.pitch -= 0.05;
 }
 
-int	key_hoo(int keycode, fdf *data)
+int	key_hoo(int keycode, t_fdf *data)
 {
 	if (valid_key(keycode))
 	{
@@ -49,7 +61,7 @@ int	key_hoo(int keycode, fdf *data)
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		free_data(data);
 		free(data);
-		printf(CYAN BOLD "Work with fdf program finished with ESC\n" RESET);
+		printf(CYAN BOLD "Work with t_fdf program finished with ESC\n" RESET);
 		exit(0);
 	}
 	if (!valid_key(keycode))
