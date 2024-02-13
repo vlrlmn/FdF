@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:10:19 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 16:58:23 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:10:37 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,18 @@ typedef struct data
 	t_calculateColor	rgb;
 }						t_fdf;
 
+typedef struct FloatPoint
+{
+	float x;
+	float y;
+} t_fpoint;
+
+typedef struct IntPoint
+{
+	int x;
+	int y;
+} t_point;
+
 void					default_parameters(t_fdf *data);
 int						read_file(char *filename, t_fdf *data);
 int						read_and_fill(int fd, t_fdf *data);
@@ -118,8 +130,7 @@ int						fill_matrix(int *z_line, unsigned int *color_line,
 							char *line);
 int						word_count(char *str, char c);
 int						get_height(char *filename);
-void					bresenham(float x, float y, float x1, float y1,
-							t_fdf *data);
+void					bresenham(t_fpoint p, t_fpoint p1, t_fdf *data);
 void					draw_map(t_fdf *data);
 void					isometric_func(float *x, float *y, t_fdf *data, int z);
 int						key_hoo(int keycode, t_fdf *data);
