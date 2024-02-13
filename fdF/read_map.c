@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   read_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:43:00 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 17:03:06 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 22:33:24 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	read_and_fill(int fd, t_fdf *data)
 		data->matrix[i] = ft_calloc(data->width, sizeof(int));
 		data->col_matrix[i] = ft_calloc(data->width, sizeof(unsigned int));
 		if (fill_matrix(data->matrix[i], data->col_matrix[i], line))
-			return (err_free(line, RED BOLD "Not a rectangle!\n" RESET));
+			return (err_free(line, RED BOLD "Failed fill matrix!\n" RESET));
 		free(line);
 		i++;
 		line = get_next_line(fd);

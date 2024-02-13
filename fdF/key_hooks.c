@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   key_hooks.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:52:47 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 16:53:30 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:45:09 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,13 @@ void	exec_key(int keycode, t_fdf *data)
 {
 	ft_printf(BOLD "Pressed button: %d!\n", keycode, RESET);
 	if (keycode == 126)
-		data->window.shift_y -= 10;
+		data->window.shift.y -= 10;
 	if (keycode == 125)
-		data->window.shift_y += 10;
+		data->window.shift.y += 10;
 	if (keycode == 124)
-		data->window.shift_x += 10;
+		data->window.shift.x += 10;
 	if (keycode == 123)
-		data->window.shift_x -= 10;
+		data->window.shift.x -= 10;
 	if (keycode == 0)
 		data->window.angle += 0.05;
 	if (keycode == 1)
@@ -60,7 +60,6 @@ int	key_hoo(int keycode, t_fdf *data)
 	{
 		mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 		free_data(data);
-		free(data);
 		printf(CYAN BOLD "Work with t_fdf program finished with ESC\n" RESET);
 		exit(0);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fill_matrix.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:44:44 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 16:45:55 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 22:33:42 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,19 @@
 char	**get_pair_arr(char *token)
 {
 	char	**pair_arr;
-	char	*trimmed_token;
 
-	trimmed_token = ft_strtrim(token, "\n");
-	if (!trimmed_token || *trimmed_token == '\0')
-		return (NULL);
-	pair_arr = ft_split(trimmed_token, ',');
+	pair_arr = ft_split(token, ',');
 	if (!pair_arr)
 	{
 		ft_printf(RED BOLD "Token split error\n" RESET);
-		free(trimmed_token);
 		return (NULL);
 	}
-	if (ft_strchr(trimmed_token, ',') && !pair_arr[1])
+	if (ft_strchr(token, ',') && !pair_arr[1])
 	{
 		ft_printf(RED BOLD "Invalid color\n" RESET);
 		free_array(pair_arr);
-		free(trimmed_token);
 		return (NULL);
 	}
-	free(trimmed_token);
 	return (pair_arr);
 }
 
@@ -49,15 +42,23 @@ void	fill_color(unsigned int *color_line, char *color)
 int	fill_matrix_value(int *z_line, unsigned int *color_line, char *token)
 {
 	char	**pair;
+    char	*trimmed_token;
 
-	pair = get_pair_arr(token);
+	trimmed_token = ft_strtrim(token, "\n ");
+	if (!trimmed_token || *trimmed_token == '\0')
+	{
+		free(trimmed_token);
+		return (0);
+	}
+	pair = get_pair_arr(trimmed_token);
 	if (!pair)
-		return (1);
+		return (print_err(RED BOLD "Empty pair!\n" RESET));
 	if (is_pair_invalid(pair))
-		return (1);
+		return (err_free(trimmed_token, RED BOLD "Invalid pair!\n" RESET));
 	*z_line = ft_atoi(pair[0]);
 	fill_color(color_line, pair[1]);
 	free_array(pair);
+	free(trimmed_token);
 	return (0);
 }
 

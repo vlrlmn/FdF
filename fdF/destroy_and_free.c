@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   destroy_and_free.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:56:41 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 17:04:13 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:45:15 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	close_window(t_fdf *data)
 	ft_printf(CYAN BOLD "Program finished with cross sign\n" RESET);
 	mlx_destroy_window(data->mlx_ptr, data->win_ptr);
 	free_data(data);
-	free(data);
 	exit(0);
 }
 

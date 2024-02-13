@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bresenham.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 18:49:01 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 18:54:26 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 21:38:37 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,10 @@ void	width_bresenham(int x, int y, t_fdf *data)
 	y1 *= data->window.zoom;
 	isometric_func(&x, &y, data, data->z);
 	isometric_func(&x1, &y1, data, data->z1);
-	x += data->window.shift_x;
-	y += data->window.shift_y;
-	x1 += data->window.shift_x;
-	y1 += data->window.shift_y;
+	x += data->window.shift.x;
+	y += data->window.shift.y;
+	x1 += data->window.shift.x;
+	y1 += data->window.shift.y;
 	if (start_color == 0)
 		data->gradient.start_color = determine_color_based_on_z(data->z, data);
 	else
@@ -44,8 +44,8 @@ void	width_bresenham(int x, int y, t_fdf *data)
 	else
 		data->gradient.end_color = end_color;
 	data->isometric.max = get_max(fabs(x1 - x), fabs(y1 - y));
-	data->isometric.x_step = (x1 - x) / data->isometric.max;
-	data->isometric.y_step = (y1 - y) / data->isometric.max;
+	data->isometric.step.x = (x1 - x) / data->isometric.max;
+	data->isometric.step.y = (y1 - y) / data->isometric.max;
 	color_pixels(data, x, y);
 }
 
@@ -68,10 +68,10 @@ void	height_bresenham(int x, int y, t_fdf *data)
 	y1 *= data->window.zoom;
 	isometric_func(&x, &y, data, data->z);
 	isometric_func(&x1, &y1, data, data->z1);
-	x += data->window.shift_x;
-	y += data->window.shift_y;
-	x1 += data->window.shift_x;
-	y1 += data->window.shift_y;
+	x += data->window.shift.x;
+	y += data->window.shift.y;
+	x1 += data->window.shift.x;
+	y1 += data->window.shift.y;
 	if (start_color == 0)
 		data->gradient.start_color = determine_color_based_on_z(data->z, data);
 	else
@@ -81,7 +81,7 @@ void	height_bresenham(int x, int y, t_fdf *data)
 	else
 		data->gradient.end_color = end_color;
 	data->isometric.max = get_max(fabs(x1 - x), fabs(y1 - y));
-	data->isometric.x_step = (x1 - x) / data->isometric.max;
-	data->isometric.y_step = (y1 - y) / data->isometric.max;
+	data->isometric.step.x = (x1 - x) / data->isometric.max;
+	data->isometric.step.y = (y1 - y) / data->isometric.max;
 	color_pixels(data, x, y);
 }

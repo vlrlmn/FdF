@@ -6,23 +6,23 @@
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:55:14 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 21:18:04 by lomakinaval      ###   ########.fr       */
+/*   Updated: 2024/02/13 21:52:56 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	isometric_func(float *x, float *y, t_fdf *data, int z)
+void	isometric_func(t_fpoint *p, t_fdf *data, int z)
 {
-	data->isometric.prev_x = *x;
-	data->isometric.prev_y = *y;
-	*x = data->isometric.prev_x * cos(data->window.angle)
-		- data->isometric.prev_y * sin(data->window.angle);
-	*y = data->isometric.prev_x * sin(data->window.angle)
-		+ data->isometric.prev_y * cos(data->window.angle);
+	data->isometric.prev.x = p->x;
+	data->isometric.prev.y= p->y;
+	p->x = data->isometric.prev.x * cos(data->window.angle)
+		- data->isometric.prev.y* sin(data->window.angle);
+	p->y = data->isometric.prev.x * sin(data->window.angle)
+		+ data->isometric.prev.y* cos(data->window.angle);
 	data->isometric.scaled_z = z * data->window.z_height;
-	data->isometric.current_y = *y;
-	*y = data->isometric.current_y * cos(data->window.pitch)
+	data->isometric.current_y = p->y;
+	p->y = data->isometric.current_y * cos(data->window.pitch)
 		- data->isometric.scaled_z * sin(data->window.pitch);
 }
 
@@ -35,12 +35,12 @@ void	color_pixels(t_fdf *data, float x, float y)
 	{
 		interpolate_color(i / data->isometric.max,
 			&data->gradient.current_color, data);
-		if (x >= 0 && x < data->window.win_x && y >= 0
-			&& y < data->window.win_y)
+		if (x >= 0 && x < data->window.win.x && y >= 0
+			&& y < data->window.win.y)
 		{
 			my_mlx_pixel_put(data, x, y, data->gradient.current_color);
-			x += data->isometric.x_step;
-			y += data->isometric.y_step;
+			x += data->isometric.step.x;
+			y += data->isometric.step.y;
 			i++;
 		}
 		else
@@ -63,8 +63,8 @@ void set_gradient(unsigned int start_color, unsigned int end_color, t_fdf *data)
 void set_isometric(t_fpoint p, t_fpoint p1, t_fdf *data)
 {
 	data->isometric.max = get_max(fabs(p1.x - p.x), fabs(p1.y - p.y));
-	data->isometric.x_step = (p1.x - p.x) / data->isometric.max;
-	data->isometric.y_step = (p1.y - p.y) / data->isometric.max;
+	data->isometric.step.x = (p1.x - p.x) / data->isometric.max;
+	data->isometric.step.y = (p1.y - p.y) / data->isometric.max;
 	color_pixels(data, p.x, p.y);
 }
 
@@ -81,12 +81,12 @@ void bresenham(t_fpoint p, t_fpoint p1, t_fdf *data)
 	p.y *= data->window.zoom;
 	p1.x *= data->window.zoom;
 	p1.y *= data->window.zoom;
-	isometric_func(&(p.x), &(p.y), data, data->z);
-	isometric_func(&(p1.x), &(p1.y), data, data->z1);
-	p.x += data->window.shift_x;
-	p.y += data->window.shift_y;
-	p1.x += data->window.shift_x;
-	p1.y += data->window.shift_y;
+	isometric_func(&p, data, data->z);
+	isometric_func(&p1, data, data->z1);
+	p.x += data->window.shift.x;
+	p.y += data->window.shift.y;
+	p1.x += data->window.shift.x;
+	p1.y += data->window.shift.y;
 	set_gradient(start_color, end_color, data);
     set_isometric(p, p1, data);
 }
@@ -95,8 +95,8 @@ void	make_img(t_fdf *data)
 {
 	if (data->img == NULL)
 	{
-		data->img = mlx_new_image(data->mlx_ptr, data->window.win_x,
-				data->window.win_y);
+		data->img = mlx_new_image(data->mlx_ptr, data->window.win.x,
+				data->window.win.y);
 		if (!data->img)
 			return ;
 		data->img_string = mlx_get_data_addr(data->img, &data->bits,
@@ -106,7 +106,7 @@ void	make_img(t_fdf *data)
 	}
 	else
 	{
-		ft_bzero(data->img_string, data->window.win_x * data->window.win_y
+		ft_bzero(data->img_string, data->window.win.x * data->window.win.y
 			* (data->bits / 8));
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:41:56 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 16:57:27 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/13 22:33:29 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	word_count(char *str, char c)
 	{
 		while (str[i] == c && str[i] != '\0')
 			i++;
-		if (str[i])
+		if (str[i] && str[i] != '\n')
 			words++;
 		while (str[i] != c && str[i] != '\0')
 			i++;
@@ -56,7 +56,7 @@ void	my_mlx_pixel_put(t_fdf *data, int x, int y, int color)
 {
 	char	*dst;
 
-	if (x >= 0 && x < data->window.win_x && y >= 0 && y < data->window.win_y)
+	if (x >= 0 && x < data->window.win.x && y >= 0 && y < data->window.win.y)
 	{
 		dst = data->img_string + (y * data->lsize + x * (data->bits / 8));
 		*(unsigned int *)dst = color;

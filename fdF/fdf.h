@@ -6,7 +6,7 @@
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:10:19 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 21:30:35 by lomakinaval      ###   ########.fr       */
+/*   Updated: 2024/02/13 21:50:23 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,18 @@
 # define YELLOW "\033[33m"
 # define CYAN "\033[36m"
 # define BACK "\033[47m"
+
+typedef struct float_point
+{
+	float x;
+	float y;
+} t_fpoint;
+
+typedef struct int_point
+{
+	int x;
+	int y;
+} t_point;
 
 typedef struct gradient
 {
@@ -68,21 +80,17 @@ typedef struct rgb
 
 typedef struct isometric
 {
-	float				x_step;
-	float				y_step;
+	t_fpoint			step;
 	float				max;
-	float				prev_x;
-	float				prev_y;
+	t_fpoint			prev;
 	float				scaled_z;
 	float				current_y;
 }						t_floatPoint;
 
 typedef struct window
 {
-	int					win_x;
-	int					win_y;
-	int					shift_x;
-	int					shift_y;
+	t_point				win;
+	t_point				shift;
 	double				angle;
 	double				pitch;
 	float				z_height;
@@ -111,18 +119,6 @@ typedef struct data
 	t_calculateColor	rgb;
 }						t_fdf;
 
-typedef struct float_point
-{
-	float x;
-	float y;
-} t_fpoint;
-
-typedef struct int_point
-{
-	int x;
-	int y;
-} t_point;
-
 void					default_parameters(t_fdf *data);
 int						read_file(char *filename, t_fdf *data);
 int						read_and_fill(int fd, t_fdf *data);
@@ -132,7 +128,7 @@ int						word_count(char *str, char c);
 int						get_height(char *filename);
 void					bresenham(t_fpoint p, t_fpoint p1, t_fdf *data);
 void					draw_map(t_fdf *data);
-void					isometric_func(float *x, float *y, t_fdf *data, int z);
+void					isometric_func(t_fpoint *p, t_fdf *data, int z);
 int						key_hoo(int keycode, t_fdf *data);
 float					get_max(float a, float b);
 void					calculate_min_max_z(t_fdf *data);
