@@ -6,7 +6,7 @@
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 14:10:19 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/13 21:10:37 by lomakinaval      ###   ########.fr       */
+/*   Updated: 2024/02/13 21:30:35 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,13 @@ typedef struct data
 	t_calculateColor	rgb;
 }						t_fdf;
 
-typedef struct FloatPoint
+typedef struct float_point
 {
 	float x;
 	float y;
 } t_fpoint;
 
-typedef struct IntPoint
+typedef struct int_point
 {
 	int x;
 	int y;
