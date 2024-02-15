@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate_data.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vlomakin <vlomakin@student.42.fr>          +#+  +:+       +#+        */
+/*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:41:42 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/02/14 12:20:26 by vlomakin         ###   ########.fr       */
+/*   Updated: 2024/02/14 17:26:07 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,9 @@ int	valid_color_format(char *color)
 		color += 2;
 		length -= 2;
 	}
-	if (!length)
+	else 
+		return(1);
+	if (length < 2 || length > 6)
 		return (1);
 	while (i < length)
 	{
