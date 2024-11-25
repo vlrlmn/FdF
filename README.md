@@ -56,7 +56,7 @@ Run the program
 ```
 # 🗺️ Map example
 
-Here's a simple .fdf map:
+Maps provided in a folder test_maps. Here's a simple .fdf map:
 ```
 0  0  0  0  0
 0  5  5  5  0
@@ -89,3 +89,5 @@ The program will render this as a 3D wireframe with elevation.
 
 ### Zoom in/out and change the height of Z-index
 ![zoom](https://github.com/vlrlmn/FdF/blob/main/FdF/images/ZXCVsizechange-ezgif.com-video-to-gif-converter.gif)
+
+
