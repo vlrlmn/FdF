@@ -35,7 +35,7 @@
 
 - **Language:** C
 - **Library:** MiniLibX (for graphics and event handling)
-- **Tools:** GCC, Makefile, Valgrind
+- **Tools:** GCC, Makefile, top memory management
 
 ---
 
