@@ -68,10 +68,10 @@ The program will render this as a 3D wireframe with elevation.
 ## 🎮 Controls
 
 
-| Key             | Action                 |
-|-----------------|------------------------|
-|    Arrow Keys   | Move the map           |
-[arrow moves] (https://github.com/vlrlmn/FdF/blob/main/FdF/images/arrowmoves-ezgif.com-video-to-gif-converter.gif)
+
+
+![arrow moves](https://github.com/vlrlmn/FdF/blob/main/FdF/images/arrowmoves-ezgif.com-video-to-gif-converter.gif)
+
 |    `Z` / `X`    | Zoom in/out            |
 |    `S` / `A`    | Rotate on X axis       |
 |    `B` / `N`    | Rotate on Y axis       |
