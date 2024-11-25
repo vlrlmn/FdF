@@ -3,6 +3,7 @@
 
 **FdF** is a 3D wireframe visualizer written in C using the **MiniLibX** library. The goal of the project is to represent a 2D map in a 3D perspective using isometric projection.
 
+![FdF preview](https://github.com/vlrlmn/FdF/blob/main/FdF/images/ZXCVsizechange-ezgif.com-video-to-gif-converter.gif)
 ---
 
 ## 🚀 Project Highlights
@@ -66,16 +67,13 @@ Here's a simple .fdf map:
 The program will render this as a 3D wireframe with elevation.
 
 ## 🎮 Controls
-
-
-
-
-![arrow moves](https://github.com/vlrlmn/FdF/blob/main/FdF/images/arrowmoves-ezgif.com-video-to-gif-converter.gif)
-
-|    `Z` / `X`    | Zoom in/out            |
-|    `S` / `A`    | Rotate on X axis       |
-|    `B` / `N`    | Rotate on Y axis       |
-|    `C` / `V`    | Adjust Z-height (convex/concave)|
-|   `ESC` / `Q`   | Exit the program       |
+| Key          | Action                                   |
+|--------------|-----------------------------------------|
+| Arrow Keys   | Move the map                            |
+| `Z` / `X`    | Zoom in/out                             |
+| `S` / `A`    | Rotate on X axis                        |
+| `B` / `N`    | Rotate on Y axis                        |
+| `C` / `V`    | Adjust height along the Z axis (convex/concave) |
+| `ESC` / `Q`  | Exit the program                        |
 
 # 🖼️ Demo
