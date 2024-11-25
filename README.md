@@ -3,7 +3,7 @@
 
 **FdF** is a 3D wireframe visualizer written in C using the **MiniLibX** library. The goal of the project is to represent a 2D map in a 3D perspective using isometric projection.
 
-![FdF preview](https://github.com/vlrlmn/FdF/blob/main/FdF/images/ZXCVsizechange-ezgif.com-video-to-gif-converter.gif)
+![FdF preview](https://github.com/vlrlmn/FdF/blob/main/FdF/images/Julia-ezgif.com-video-to-gif-converter.gif)
 ---
 
 ## 🚀 Project Highlights
