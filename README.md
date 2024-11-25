@@ -56,12 +56,13 @@ Run the program
 # 🗺️ Map example
 
 Here's a simple .fdf map:
+```
 0  0  0  0  0
 0  5  5  5  0
 0  5  10 5  0
 0  5  5  5  0
 0  0  0  0  0
-
+```
 The program will render this as a 3D wireframe with elevation.
 
 ## 🎮 Controls
@@ -70,6 +71,7 @@ The program will render this as a 3D wireframe with elevation.
 | Key             | Action                 |
 |-----------------|------------------------|
 |    Arrow Keys   | Move the map           |
+[arrow moves] (https://github.com/vlrlmn/FdF/blob/main/FdF/images/arrowmoves-ezgif.com-video-to-gif-converter.gif)
 |    `Z` / `X`    | Zoom in/out            |
 |    `S` / `A`    | Rotate on X axis       |
 |    `B` / `N`    | Rotate on Y axis       |
