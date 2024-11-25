@@ -6,7 +6,7 @@
 /*   By: lomakinavaleria <lomakinavaleria@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/13 16:43:10 by vlomakin          #+#    #+#             */
-/*   Updated: 2024/11/25 12:26:49 by lomakinaval      ###   ########.fr       */
+/*   Updated: 2024/11/25 13:17:53 by lomakinaval      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	default_parameters(t_fdf *data)
 	data->window.zoom_z = 1.5;
 	data->window.angle = 0.6;
 	data->window.pitch = 1.03;
-	data->window.win.x = 700;
-	data->window.win.y = 600;
+	data->window.win.x = 1200;
+	data->window.win.y = 1200;
 	data->window.shift.x = data->window.win.x / 3;
 	data->window.shift.y = data->window.win.y / 3;
 	data->mlx_ptr = mlx_init();
